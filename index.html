@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyBizKit Pro — Simple Tools for Small Business</title>
+  <meta name="description" content="Simple, powerful tools built for small business starters and freelancers. Get started with Quinvoix — professional invoicing made quick." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Cabinet+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --aqua:     #00d4ff;
+      --aqua-2:   #00aadd;
+      --aqua-dim: rgba(0, 212, 255, 0.12);
+      --aqua-glow:rgba(0, 212, 255, 0.25);
+      --navy:     #030712;
+      --navy-2:   #060e1f;
+      --navy-3:   #0a1628;
+      --text:     #e2f0ff;
+      --muted:    #7aa8c7;
+      --border:   rgba(0, 212, 255, 0.15);
+      --white:    #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cabinet Grotesk', sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ─── ANIMATED CANVAS BACKGROUND ─── */
+    #wave-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(3, 7, 18, 0.7);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      font-family: 'Clash Display', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-brand span { color: var(--aqua); }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    nav ul a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--aqua); }
+
+    .nav-cta {
+      background: var(--aqua) !important;
+      color: var(--navy) !important;
+      padding: 0.5rem 1.2rem !important;
+      border-radius: 6px !important;
+      font-weight: 700 !important;
+      transition: box-shadow 0.2s, transform 0.15s !important;
+    }
+
+    .nav-cta:hover {
+      box-shadow: 0 0 20px var(--aqua-glow) !important;
+      transform: translateY(-1px) !important;
+      color: var(--navy) !important;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 7rem 1.5rem 5rem;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--aqua-dim);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.4rem 1.1rem;
+      font-size: 0.78rem;
+      color: var(--aqua);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Clash Display', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      max-width: 900px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+
+    .hero h1 .aqua {
+      color: var(--aqua);
+      text-shadow: 0 0 40px rgba(0,212,255,0.4);
+    }
+
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.75;
+      font-weight: 300;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .hero-sub strong { color: var(--text); font-weight: 500; }
+
+    .hero-cta {
+      margin-top: 2.8rem;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--aqua);
+      color: var(--navy);
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.9rem 2.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.15s;
+      box-shadow: 0 4px 30px var(--aqua-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(0,212,255,0.4);
+    }
+
+    .btn-ghost {
+      display: inline-block;
+      background: transparent;
+      color: var(--text);
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 0.9rem 2.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      margin-left: 1rem;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--aqua);
+      color: var(--aqua);
+    }
+
+    /* ─── SCROLL INDICATOR ─── */
+    .scroll-hint {
+      margin-top: 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: fadeUp 0.7s 0.5s ease both;
+    }
+
+    .scroll-hint span {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--aqua), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+
+    /* ─── TAGLINE STRIP ─── */
+    .tagline-strip {
+      position: relative;
+      z-index: 2;
+      background: rgba(0,212,255,0.06);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1.2rem 1.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .tagline-strip span { color: var(--aqua); font-weight: 600; }
+
+    /* ─── APPS SECTION ─── */
+    .apps-section {
+      position: relative;
+      z-index: 2;
+      padding: 6rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--aqua);
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      text-align: center;
+    }
+
+    .section-title {
+      font-family: 'Clash Display', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: -0.03em;
+      color: var(--white);
+      text-align: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 1rem;
+      font-weight: 300;
+      max-width: 480px;
+      margin: 0 auto 3.5rem;
+      line-height: 1.7;
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* ─── APP CARD ─── */
+    .app-card {
+      background: rgba(6,14,31,0.8);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      backdrop-filter: blur(8px);
+    }
+
+    .app-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--aqua), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .app-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(0,212,255,0.08);
+      border-color: rgba(0,212,255,0.3);
+    }
+
+    .app-card:hover::before { opacity: 1; }
+
+    .app-card.coming-soon {
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    .app-card.coming-soon:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: var(--border);
+    }
+
+    .app-card.coming-soon::before { display: none; }
+
+    .card-badge {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 100px;
+    }
+
+    .badge-live {
+      background: rgba(0,212,255,0.15);
+      color: var(--aqua);
+      border: 1px solid rgba(0,212,255,0.3);
+    }
+
+    .badge-soon {
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .app-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.6rem;
+    }
+
+    .app-name {
+      font-family: 'Clash Display', sans-serif;
+      font-weight: 600;
+      font-size: 1.5rem;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .app-tagline {
+      font-size: 0.85rem;
+      color: var(--aqua);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .app-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.8rem;
+      font-weight: 300;
+    }
+
+    .app-features {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .app-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    .app-feature::before {
+      content: '→';
+      color: var(--aqua);
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .app-cta {
+      display: block;
+      text-align: center;
+      background: var(--aqua);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.8rem;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: box-shadow 0.2s, transform 0.15s;
+    }
+
+    .app-cta:hover {
+      box-shadow: 0 4px 20px var(--aqua-glow);
+      transform: translateY(-1px);
+    }
+
+    .app-cta-soon {
+      display: block;
+      text-align: center;
+      background: rgba(255,255,255,0.05);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.8rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ─── WHY SECTION ─── */
+    .why-section {
+      position: relative;
+      z-index: 2;
+      padding: 4rem 1.5rem 6rem;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .why-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .why-icon {
+      font-size: 2rem;
+      width: 60px; height: 60px;
+      background: var(--aqua-dim);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+    }
+
+    .why-item h3 {
+      font-family: 'Clash Display', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--white);
+    }
+
+    .why-item p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* ─── CTA BAND ─── */
+    .cta-band {
+      position: relative;
+      z-index: 2;
+      margin: 0 1.5rem 5rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 5rem;
+      background: rgba(0,212,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 4rem 2rem;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .cta-band::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: 50%;
+      transform: translateX(-50%);
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-band h2 {
+      font-family: 'Clash Display', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.8rem;
+    }
+
+    .cta-band p {
+      color: var(--muted);
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative;
+      z-index: 2;
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .footer-brand {
+      font-family: 'Clash Display', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--white);
+    }
+
+    .footer-brand span { color: var(--aqua); }
+
+    footer p { font-size: 0.8rem; color: var(--muted); }
+
+    footer a {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--aqua); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      nav ul { display: none; }
+      .btn-ghost { display: none; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ANIMATED WAVE CANVAS -->
+  <canvas id="wave-canvas"></canvas>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-brand">MyBizKit<span>Pro</span></a>
+    <ul>
+      <li><a href="#apps">Our Apps</a></li>
+      <li><a href="quinvoix/index.html">Quinvoix</a></li>
+      <li><a href="quinvoix/index.html" class="nav-cta">Try Quinvoix Free</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">✦ Built for small business starters</div>
+    <h1>Simple tools.<br/><span class="aqua">Big results.</span></h1>
+    <p class="hero-sub">
+      MyBizKit Pro builds <strong>lean, focused software</strong> for freelancers and small business owners who want to get things done — without the enterprise price tag or the learning curve.
+    </p>
+    <div class="hero-cta">
+      <a href="#apps" class="btn-primary">Explore our apps</a>
+      <a href="quinvoix/index.html" class="btn-ghost">Start invoicing free →</a>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- TAGLINE STRIP -->
+  <div class="tagline-strip">
+    <span>No bloat. No complexity. No accountant required.</span> &nbsp;Just simple tools that work.
+  </div>
+
+  <!-- APPS -->
+  <section class="apps-section" id="apps">
+    <div class="section-label">Our product suite</div>
+    <h2 class="section-title">Everything your business needs</h2>
+    <p class="section-sub">One toolkit. Built for people who are just getting started and want to move fast.</p>
+
+    <div class="apps-grid">
+
+      <!-- QUINVOIX — LIVE -->
+      <div class="app-card">
+        <span class="card-badge badge-live">● Live</span>
+        <div class="app-icon" style="background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.2);">
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none"><text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="22" fill="#F59E0B">Q</text></svg>
+        </div>
+        <div class="app-name">Quinvoix</div>
+        <div class="app-tagline">Your go-to for Quick Invoicing!</div>
+        <p class="app-desc">Create professional invoices in seconds. 12 templates, GST/VAT support, quotes, partial payments, and live preview — all in a mobile-first app.</p>
+        <div class="app-features">
+          <div class="app-feature">12 professional invoice templates</div>
+          <div class="app-feature">GST, VAT & custom tax rates</div>
+          <div class="app-feature">Quote to Invoice in one click</div>
+          <div class="app-feature">Partial payments & deposits</div>
+          <div class="app-feature">7-day free trial · $8.99 AUD/mo</div>
+        </div>
+        <a href="quinvoix/index.html" class="app-cta">Start free trial →</a>
+      </div>
+
+      <!-- CASHTRACKER — COMING SOON -->
+      <div class="app-card coming-soon">
+        <span class="card-badge badge-soon">Coming Soon</span>
+        <div class="app-icon" style="background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.15);">
+          💰
+        </div>
+        <div class="app-name">Cashlyx</div>
+        <div class="app-tagline">Simple cash tracking, clarity for every dollar.</div>
+        <p class="app-desc">A personal budgeting and cash flow tracker built for freelancers and sole traders. Track income, expenses, and upcoming bills in one place.</p>
+        <div class="app-features">
+          <div class="app-feature">Income & expense tracking</div>
+          <div class="app-feature">Recurring bills & forecasting</div>
+          <div class="app-feature">Spending velocity alerts</div>
+          <div class="app-feature">Goals tracker</div>
+        </div>
+        <div class="app-cta-soon">Notify me when live</div>
+      </div>
+
+      <!-- PROOFBOX — COMING SOON -->
+      <div class="app-card coming-soon">
+        <span class="card-badge badge-soon">Coming Soon</span>
+        <div class="app-icon" style="background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.15);">
+          🧾
+        </div>
+        <div class="app-name">Warrantyx</div>
+        <div class="app-tagline">Safe, simple warranty saved in seconds.</div>
+        <p class="app-desc">Scan and store receipts, track warranties, and get notified before they expire. Never lose proof of purchase again.</p>
+        <div class="app-features">
+          <div class="app-feature">Receipt &amp; warranty vault</div>
+          <div class="app-feature">Expiry notifications</div>
+          <div class="app-feature">Tax-marked expenses</div>
+          <div class="app-feature">Insights & spending reports</div>
+        </div>
+        <div class="app-cta-soon">Notify me when live</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WHY MYBIZKITPRO -->
+  <section class="why-section">
+    <div class="section-label">Why MyBizKit Pro</div>
+    <h2 class="section-title">Built for starters</h2>
+    <p class="section-sub">We build tools for people who are figuring it out as they go — not for enterprise teams with dedicated IT departments.</p>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon">⚡</div>
+        <h3>Fast to learn</h3>
+        <p>No training required. If you can use a smartphone, you can use our apps.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">💸</div>
+        <h3>Honest pricing</h3>
+        <p>Flat monthly fees. No per-invoice charges, no hidden costs, no surprise bills.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">🌍</div>
+        <h3>Works worldwide</h3>
+        <p>GST, VAT, and local tax rates supported. Built for global freelancers.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">📱</div>
+        <h3>Mobile-first</h3>
+        <p>Designed for your phone first. No clunky desktop-only interfaces.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <div class="cta-band">
+    <h2>Ready to get started?</h2>
+    <p>Try Quinvoix free for 7 days — no credit card required to begin.</p>
+    <a href="quinvoix/index.html" class="btn-primary">Start your free trial</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">MyBizKit<span>Pro</span></div>
+    <p>© 2025 MyBizKit Pro. All rights reserved.</p>
+    <div style="display:flex;gap:1.5rem;">
+      <a href="quinvoix/index.html">Quinvoix</a>
+      <a href="/cdn-cgi/l/email-protection#4e262b2222210e23372c273425273a3e3c21602d2123">Contact</a>
+    </div>
+  </footer>
+
+  <!-- WAVE ANIMATION SCRIPT -->
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    const canvas = document.getElementById('wave-canvas');
+    const ctx = canvas.getContext('2d');
+    let t = 0;
+    let particles = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Spawn particles
+    function spawnParticle() {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 0.5,
+        alpha: Math.random() * 0.5 + 0.1,
+        speed: Math.random() * 0.3 + 0.1,
+        drift: (Math.random() - 0.5) * 0.3,
+      });
+    }
+
+    for (let i = 0; i < 80; i++) spawnParticle();
+
+    function drawWave(yBase, amplitude, frequency, speed, color, alpha) {
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height);
+      for (let x = 0; x <= canvas.width; x += 2) {
+        const y = yBase
+          + Math.sin(x * frequency + t * speed) * amplitude
+          + Math.sin(x * frequency * 0.5 + t * speed * 1.3) * amplitude * 0.5;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(canvas.width, canvas.height);
+      ctx.closePath();
+      ctx.fillStyle = color.replace('ALPHA', alpha);
+      ctx.fill();
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Deep background gradient
+      const bg = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      bg.addColorStop(0, '#030712');
+      bg.addColorStop(0.5, '#060e1f');
+      bg.addColorStop(1, '#030712');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Waves — bottom layers first
+      const h = canvas.height;
+      drawWave(h * 0.85, 40, 0.004, 0.4, 'rgba(0,100,180,ALPHA)', 0.15);
+      drawWave(h * 0.80, 50, 0.003, 0.3, 'rgba(0,140,220,ALPHA)', 0.12);
+      drawWave(h * 0.75, 45, 0.005, 0.5, 'rgba(0,180,255,ALPHA)', 0.10);
+      drawWave(h * 0.70, 35, 0.004, 0.6, 'rgba(0,212,255,ALPHA)', 0.08);
+      drawWave(h * 0.65, 55, 0.003, 0.35, 'rgba(0,212,255,ALPHA)', 0.05);
+
+      // Radial glow top-center
+      const glow = ctx.createRadialGradient(
+        canvas.width / 2, canvas.height * 0.3, 0,
+        canvas.width / 2, canvas.height * 0.3, canvas.width * 0.45
+      );
+      glow.addColorStop(0, 'rgba(0,212,255,0.06)');
+      glow.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Particles (floating sparkles)
+      particles.forEach((p, i) => {
+        p.y -= p.speed;
+        p.x += p.drift;
+        p.alpha -= 0.001;
+        if (p.y < -10 || p.alpha <= 0) {
+          particles[i] = {
+            x: Math.random() * canvas.width,
+            y: canvas.height + 10,
+            r: Math.random() * 2 + 0.5,
+            alpha: Math.random() * 0.4 + 0.1,
+            speed: Math.random() * 0.3 + 0.1,
+            drift: (Math.random() - 0.5) * 0.3,
+          };
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+  
