@@ -839,4 +839,14 @@
         }
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-  
+        ctx.fillStyle = `rgba(0,212,255,${p.alpha})`;
+        ctx.fill();
+      });
+
+      t += 0.008;
+    }
+    animate();
+  </script>
+</body>
+</html>
+
