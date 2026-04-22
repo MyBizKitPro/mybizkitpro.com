@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warrantyx — Warranty Vault for Smart Shoppers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0b0e1a;
+    --bg2:       #111526;
+    --bg3:       #161b2e;
+    --accent:    #007AFF;
+    --accent2:   #38b6ff;
+    --cyan:      #00cfff;
+    --text:      #ffffff;
+    --muted:     #8892a4;
+    --border:    rgba(255,255,255,0.08);
+    --card:      rgba(255,255,255,0.04);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(0,122,255,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(0,207,255,0.06) 0%, transparent 50%),
+      radial-gradient(rgba(255,255,255,0.028) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 28px 28px;
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── ANIMATED BACKGROUND ── */
+  .bg-anim {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  /* Drifting glow particles (rise slowly) */
+  .bg-anim .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: #38b6ff;
+    opacity: 0;
+    box-shadow: 0 0 6px #38b6ff, 0 0 14px rgba(56,182,255,0.4);
+    animation: particle-drift linear infinite;
+    will-change: transform, opacity;
+  }
+  @keyframes particle-drift {
+    0%   { transform: translate3d(0, 110vh, 0) scale(0.5); opacity: 0; }
+    10%  { opacity: 0.9; }
+    85%  { opacity: 0.9; }
+    100% { transform: translate3d(0, -10vh, 0) scale(1); opacity: 0; }
+  }
+  /* Diagonal comet streaks */
+  .bg-anim .streak {
+    position: absolute;
+    top: 0; left: 0;
+    width: 200px;
+    height: 2px;
+    background: linear-gradient(to right,
+      transparent 0%,
+      rgba(56,182,255,0) 25%,
+      rgba(56,182,255,0.85) 80%,
+      #e0f4ff 100%);
+    opacity: 0;
+    border-radius: 2px;
+    filter: drop-shadow(0 0 6px rgba(56,182,255,0.7));
+    animation: streak-fly linear infinite;
+    will-change: transform, opacity;
+  }
+  /* Comets travel upper-right → lower-left; head (bright end) leads the motion */
+  @keyframes streak-fly {
+    0%   { transform: translate(calc(100vw + 300px), -120px) rotate(135deg); opacity: 0; }
+    8%   { opacity: 1; }
+    60%  { opacity: 1; }
+    100% { transform: translate(-300px, calc(100vh + 200px)) rotate(135deg); opacity: 0; }
+  }
+  /* Corner circuit glow accents (static, subtle) */
+  .bg-anim .circuit-glow {
+    position: absolute;
+    width: 40vw;
+    height: 40vw;
+    max-width: 520px;
+    max-height: 520px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: circuit-pulse 8s ease-in-out infinite;
+  }
+  .bg-anim .circuit-glow.tl { top: -200px; left: -200px; background: radial-gradient(circle, rgba(0,122,255,0.6), transparent 70%); }
+  .bg-anim .circuit-glow.br { bottom: -200px; right: -200px; background: radial-gradient(circle, rgba(0,207,255,0.5), transparent 70%); animation-delay: -4s; }
+  @keyframes circuit-pulse {
+    0%,100% { opacity: 0.25; transform: scale(1); }
+    50%     { opacity: 0.45; transform: scale(1.1); }
+  }
+  /* Ensure content sits above background */
+  nav, .hero, section, .how-section, .cta-band, footer { position: relative; z-index: 1; }
+
+  /* Reduce animation work on low-power or reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .bg-anim .particle, .bg-anim .streak, .bg-anim .circuit-glow { animation: none; opacity: 0.3; }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(11,14,26,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-brand-parent { font-size: 13px; color: var(--muted); font-weight: 500; letter-spacing: .02em; }
+  .nav-brand-sep { color: var(--border); font-size: 16px; margin: 0 2px; }
+  .nav-brand-name { font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700; color: var(--accent2); letter-spacing: -.02em; }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta {
+    background: var(--accent); color: #fff; border: none; border-radius: 8px;
+    padding: 10px 22px; font-size: 14px; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: opacity .2s, transform .15s;
+    text-decoration: none; display: inline-block;
+  }
+  .nav-cta:hover { opacity: .88; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 24px 80px;
+    position: relative;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid rgba(0,207,255,0.3); border-radius: 99px;
+    padding: 7px 18px; margin-bottom: 40px;
+    font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--cyan); background: rgba(0,207,255,0.06);
+    animation: fadeUp .6s ease both;
+  }
+  .hero-badge::before { content: '✦'; font-size: 9px; }
+
+  .hero-h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 800; line-height: 1.0;
+    letter-spacing: -.04em;
+    animation: fadeUp .7s .1s ease both;
+  }
+  .hero-h1 span { color: var(--accent2); display: block; }
+
+  .hero-sub {
+    max-width: 560px; margin: 28px auto 0;
+    font-size: 17px; line-height: 1.65; color: var(--muted);
+    animation: fadeUp .7s .2s ease both;
+  }
+  .hero-sub strong { color: #fff; font-weight: 600; }
+  .hero-tagline {
+    font-family: 'Sora', sans-serif;
+    font-size: 15px; letter-spacing: .06em; color: var(--cyan);
+    margin-top: 18px; font-weight: 600; text-transform: uppercase;
+    animation: fadeUp .7s .15s ease both;
+  }
+
+  .hero-actions {
+    display: flex; gap: 14px; margin-top: 44px; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp .7s .3s ease both;
+  }
+  .btn-primary {
+    background: var(--accent); color: #fff; border: none; border-radius: 10px;
+    padding: 15px 32px; font-size: 16px; font-weight: 700; cursor: pointer;
+    font-family: inherit; transition: all .2s; text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { opacity: .88; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,122,255,.35); }
+  .btn-ghost {
+    background: transparent; color: #fff;
+    border: 1px solid rgba(255,255,255,0.22); border-radius: 10px;
+    padding: 15px 32px; font-size: 16px; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: all .2s; text-decoration: none;
+    display: inline-block;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.06); transform: translateY(-2px); }
+
+  .hero-trust {
+    margin-top: 20px; font-size: 13px; color: var(--muted);
+    display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+    animation: fadeUp .7s .4s ease both;
+  }
+  .hero-trust span::before { content: '·'; margin-right: 8px; opacity: .4; }
+  .hero-trust span:first-child::before { display: none; }
+
+  .scroll-hint {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    font-size: 10px; letter-spacing: .12em; color: var(--muted);
+    animation: fadeUp .7s .6s ease both;
+  }
+  .scroll-line {
+    width: 1px; height: 36px; background: linear-gradient(to bottom, var(--muted), transparent);
+    animation: scrollPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollPulse { 0%,100%{opacity:.3}50%{opacity:1} }
+
+  /* ── SHIELD GRAPHIC ── */
+  .hero-graphic {
+    margin-top: 64px;
+    animation: fadeUp .7s .35s ease both;
+    position: relative;
+  }
+  .shield-wrap {
+    width: 320px; height: 340px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; margin: 0 auto;
+  }
+  .shield-ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(0,122,255,0.15);
+    animation: ringRotate 12s linear infinite;
+  }
+  .shield-ring:nth-child(1) { width: 280px; height: 280px; animation-duration: 12s; }
+  .shield-ring:nth-child(2) { width: 220px; height: 220px; animation-direction: reverse; animation-duration: 8s; border-color: rgba(0,207,255,0.12); }
+  @keyframes ringRotate { to { transform: rotate(360deg); } }
+  .shield-card {
+    width: 160px; height: 186px; position: relative; z-index: 2;
+    filter: drop-shadow(0 20px 60px rgba(0,122,255,.3));
+  }
+
+  /* ── WAVE ── */
+  .hero-wave {
+    position: absolute; bottom: 0; left: 0; right: 0; overflow: hidden; height: 120px;
+    pointer-events: none;
+  }
+
+  /* ── FEATURES ── */
+  section { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
+
+  .section-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent2); margin-bottom: 16px;
+  }
+  .section-h2 {
+    font-family: 'Sora', sans-serif; font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800; letter-spacing: -.03em; line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .section-h2 span { color: var(--accent2); }
+  .section-sub { font-size: 17px; color: var(--muted); line-height: 1.65; max-width: 520px; margin-bottom: 60px; }
+
+  .features-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;
+  }
+  .feature-card {
+    background: var(--card); border: 0.5px solid var(--border);
+    border-radius: 16px; padding: 28px;
+    transition: border-color .25s, transform .25s;
+    position: relative; overflow: hidden;
+  }
+  .feature-card::before {
+    content: ''; position: absolute; inset: 0; border-radius: 16px;
+    background: radial-gradient(circle at 20% 20%, rgba(0,122,255,.08), transparent 60%);
+    opacity: 0; transition: opacity .3s;
+  }
+  .feature-card:hover { border-color: rgba(0,122,255,.3); transform: translateY(-3px); }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: rgba(0,122,255,0.15); display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 18px;
+  }
+  .feature-h3 { font-family: 'Sora', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  .feature-p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* ── SCREENSHOT GALLERY ── */
+  .gallery-section {
+    padding: 100px 0 80px;
+    max-width: none;
+    margin: 0;
+    overflow: hidden;
+  }
+  .gallery-header {
+    max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  }
+  .gallery-scroll-wrap {
+    position: relative;
+    margin-top: 56px;
+    padding-left: max(24px, calc((100vw - 1400px) / 2));
+  }
+  .gallery-scroll {
+    display: flex;
+    gap: 28px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 24px 24px 40px 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .gallery-scroll::-webkit-scrollbar { display: none; }
+  .gallery-item {
+    flex-shrink: 0;
+    width: 240px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .gallery-headline {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: #fff;
+    min-height: 50px;
+  }
+  .gallery-headline span { color: var(--accent2); }
+  .phone-frame {
+    width: 240px;
+    height: 516px;
+    background: linear-gradient(180deg, #1a1f35 0%, #0f1424 100%);
+    border-radius: 32px;
+    padding: 8px;
+    box-shadow:
+      0 30px 60px rgba(0,0,0,0.5),
+      0 8px 24px rgba(0,122,255,0.12),
+      inset 0 0 0 1px rgba(255,255,255,0.06);
+    position: relative;
+    transition: transform .3s ease, box-shadow .3s ease;
+  }
+  .phone-frame:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 40px 80px rgba(0,0,0,0.6),
+      0 12px 32px rgba(0,122,255,0.2),
+      inset 0 0 0 1px rgba(255,255,255,0.08);
+  }
+  .phone-frame img {
+    width: 100%;
+    height: 100%;
+    border-radius: 24px;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    background: #f2f2f7;
+  }
+  .gallery-swipe-hint {
+    display: none;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-top: 12px;
+    text-align: center;
+  }
+  @media (max-width: 720px) {
+    .gallery-swipe-hint { display: block; }
+    .gallery-scroll-wrap { padding-left: 24px; }
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-section {
+    background: linear-gradient(135deg, rgba(0,122,255,0.05) 0%, rgba(0,207,255,0.03) 100%);
+    border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border);
+    padding: 100px 24px;
+  }
+  .how-inner { max-width: 1100px; margin: 0 auto; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-top: 60px; }
+  .step { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+  .step-num {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--accent); display: flex; align-items: center; justify-content: center;
+    font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 800; color: #fff; flex-shrink: 0;
+  }
+  .step-h { font-family: 'Sora', sans-serif; font-size: 17px; font-weight: 700; }
+  .step-p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .step-connector { display: none; }
+
+  /* ── PRICING ── */
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 60px;
+  }
+  .price-card {
+    background: var(--card); border: 0.5px solid var(--border);
+    border-radius: 20px; padding: 32px 28px; position: relative; overflow: hidden;
+  }
+  .price-card.featured {
+    border-color: var(--accent); background: rgba(0,122,255,0.08);
+  }
+  .featured-badge {
+    position: absolute; top: 20px; right: 20px;
+    background: var(--accent); color: #fff; font-size: 10px; font-weight: 700;
+    padding: 4px 10px; border-radius: 20px; letter-spacing: .06em; text-transform: uppercase;
+  }
+  .price-name { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .price-amount { font-family: 'Sora', sans-serif; font-size: 42px; font-weight: 800; letter-spacing: -.04em; color: #fff; }
+  .price-amount sup { font-size: 20px; vertical-align: top; margin-top: 8px; }
+  .price-amount sub { font-size: 15px; font-weight: 400; color: var(--muted); }
+  .price-scans { font-size: 13px; color: var(--accent2); font-weight: 600; margin: 10px 0 20px; }
+  .price-divider { height: 0.5px; background: var(--border); margin-bottom: 20px; }
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+  .price-features li { font-size: 14px; color: var(--muted); display: flex; gap: 10px; align-items: flex-start; }
+  .price-features li::before { content: '✓'; color: var(--accent2); font-weight: 700; flex-shrink: 0; }
+  .price-btn {
+    width: 100%; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 700;
+    cursor: pointer; font-family: inherit; transition: all .2s; border: none;
+    background: rgba(255,255,255,0.08); color: #fff;
+  }
+  .price-card.featured .price-btn {
+    background: var(--accent); color: #fff;
+  }
+  .price-btn:hover { transform: translateY(-1px); opacity: .88; }
+
+  /* ── CTA BAND ── */
+  .cta-band {
+    background: linear-gradient(135deg, rgba(0,122,255,0.12), rgba(0,207,255,0.06));
+    border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border);
+    padding: 100px 24px; text-align: center;
+  }
+  .cta-band h2 { font-family: 'Sora', sans-serif; font-size: clamp(32px, 4vw, 52px); font-weight: 800; letter-spacing: -.03em; margin-bottom: 16px; }
+  .cta-band h2 span { color: var(--accent2); }
+  .cta-band p { font-size: 17px; color: var(--muted); margin-bottom: 40px; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px 48px; border-top: 0.5px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: gap;
+    max-width: 100%;
+  }
+  .footer-brand { font-family: 'Sora', sans-serif; font-size: 14px; color: var(--muted); }
+  .footer-brand strong { color: var(--accent2); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color .2s; }
+  .footer-links a:hover { color: #fff; }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.2); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 20px 60px; }
+    footer { flex-direction: column; gap: 16px; padding: 32px 20px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ANIMATED BACKGROUND -->
+<div class="bg-anim" aria-hidden="true">
+  <div class="circuit-glow tl"></div>
+  <div class="circuit-glow br"></div>
+  <!-- Drifting particles (positioned via inline style for variety) -->
+  <div class="particle" style="left:  4%; width:3px; height:3px; animation-duration:28s; animation-delay:  -2s;"></div>
+  <div class="particle" style="left:  9%; width:2px; height:2px; animation-duration:22s; animation-delay:  -9s;"></div>
+  <div class="particle" style="left: 16%; width:3px; height:3px; animation-duration:32s; animation-delay: -15s;"></div>
+  <div class="particle" style="left: 22%; width:2px; height:2px; animation-duration:26s; animation-delay:  -5s;"></div>
+  <div class="particle" style="left: 28%; width:4px; height:4px; animation-duration:35s; animation-delay: -20s;"></div>
+  <div class="particle" style="left: 34%; width:2px; height:2px; animation-duration:24s; animation-delay: -11s;"></div>
+  <div class="particle" style="left: 41%; width:3px; height:3px; animation-duration:30s; animation-delay:  -7s;"></div>
+  <div class="particle" style="left: 48%; width:2px; height:2px; animation-duration:27s; animation-delay: -18s;"></div>
+  <div class="particle" style="left: 55%; width:4px; height:4px; animation-duration:34s; animation-delay:  -3s;"></div>
+  <div class="particle" style="left: 62%; width:2px; height:2px; animation-duration:25s; animation-delay: -12s;"></div>
+  <div class="particle" style="left: 69%; width:3px; height:3px; animation-duration:29s; animation-delay: -22s;"></div>
+  <div class="particle" style="left: 76%; width:2px; height:2px; animation-duration:23s; animation-delay:  -6s;"></div>
+  <div class="particle" style="left: 83%; width:3px; height:3px; animation-duration:31s; animation-delay: -16s;"></div>
+  <div class="particle" style="left: 89%; width:2px; height:2px; animation-duration:26s; animation-delay:  -8s;"></div>
+  <div class="particle" style="left: 95%; width:3px; height:3px; animation-duration:33s; animation-delay: -14s;"></div>
+  <!-- Diagonal comet streaks -->
+  <div class="streak" style="animation-duration: 14s; animation-delay:  -1s;"></div>
+  <div class="streak" style="animation-duration: 18s; animation-delay:  -8s;"></div>
+  <div class="streak" style="animation-duration: 16s; animation-delay: -12s;"></div>
+  <div class="streak" style="animation-duration: 22s; animation-delay:  -4s;"></div>
+  <div class="streak" style="animation-duration: 19s; animation-delay: -16s;"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">
+    <span class="nav-brand-parent">MyBizKitPro</span>
+    <span class="nav-brand-sep">|</span>
+    <span class="nav-brand-name">Warrantyx</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="https://warrantyx.mybizkitpro.com">Sign in</a>
+  </div>
+  <a class="nav-cta" href="https://warrantyx.mybizkitpro.com">Start free →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">✦ Your receipts, finally in one place</div>
+
+  <h1 class="hero-h1">
+    Stop losing<br>
+    <span>receipts that matter.</span>
+  </h1>
+
+  <div class="hero-tagline">Safe, simple warranty scan saved in seconds</div>
+
+  <p class="hero-sub">
+    Lost receipts mean <strong>failed warranty claims</strong> and <strong>missed tax deductions</strong>. Warrantyx keeps every receipt safe — scan it, email it, or forward it — and we remind you before the warranty expires.
+  </p>
+
+  <div class="hero-actions">
+    <a class="btn-primary" href="https://warrantyx.mybizkitpro.com">Start scanning free →</a>
+    <a class="btn-ghost" href="#how">See how it works ↓</a>
+  </div>
+
+  <div class="hero-trust">
+    <span>5 free scans/month</span>
+    <span>Email forwarding</span>
+    <span>Warranty alerts</span>
+    <span>Tax-ready exports</span>
+  </div>
+
+  <!-- Shield graphic -->
+  <div class="hero-graphic">
+    <div class="shield-wrap">
+      <div class="shield-ring"></div>
+      <div class="shield-ring"></div>
+      <svg class="shield-card" viewBox="0 0 160 186" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sg" x1="0" y1="0" x2="160" y2="186" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#1a3a6e"/>
+            <stop offset="100%" stop-color="#0a1a40"/>
+          </linearGradient>
+          <linearGradient id="beam" x1="0" y1="0" x2="160" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="transparent"/>
+            <stop offset="50%" stop-color="#007AFF"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </linearGradient>
+        </defs>
+        <path d="M80 4L152 32V96C152 136 80 182 80 182C80 182 8 136 8 96V32L80 4Z" fill="url(#sg)" stroke="rgba(0,122,255,0.6)" stroke-width="1.5"/>
+        <path d="M80 4L152 32V96C152 136 80 182 80 182C80 182 8 136 8 96V32L80 4Z" fill="none" stroke="rgba(0,207,255,0.2)" stroke-width="8"/>
+        <!-- W letter -->
+        <text x="50%" y="110" text-anchor="middle" font-family="Sora,sans-serif" font-weight="800" font-size="64" fill="#007AFF" fill-opacity="0.9">W</text>
+        <!-- scan beam -->
+        <rect x="8" y="88" width="144" height="2.5" rx="1.25" fill="url(#beam)" opacity="0.8">
+          <animateTransform attributeName="transform" type="translate" values="0,0;0,40;0,0" dur="2.5s" repeatCount="indefinite"/>
+        </rect>
+        <!-- dots -->
+        <circle cx="30" cy="50" r="2" fill="#007AFF" opacity="0.4"/>
+        <circle cx="130" cy="50" r="2" fill="#007AFF" opacity="0.4"/>
+        <circle cx="30" cy="140" r="2" fill="#007AFF" opacity="0.3"/>
+        <circle cx="130" cy="140" r="2" fill="#007AFF" opacity="0.3"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    SCROLL
+    <div class="scroll-line"></div>
+  </div>
+
+  <!-- Wave -->
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="120">
+      <path d="M0 60 C240 0 480 100 720 60 S1200 0 1440 60 V120 H0Z" fill="rgba(0,122,255,0.04)"/>
+      <path d="M0 80 C300 20 600 110 900 70 S1200 20 1440 80 V120 H0Z" fill="rgba(0,207,255,0.03)"/>
+    </svg>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-tag">What you get</div>
+  <h2 class="section-h2">Your receipts, <span>actually useful</span></h2>
+  <p class="section-sub">Stop digging through emails and shoeboxes. Warrantyx keeps everything in one smart vault.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">📷</div>
+      <h3 class="feature-h3">AI receipt scanning</h3>
+      <p class="feature-p">Point your camera at any receipt. Gemini AI extracts merchant, date, items, prices, and warranty info instantly — no typing needed.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📧</div>
+      <h3 class="feature-h3">Email forwarding</h3>
+      <p class="feature-p">Got an emailed receipt? Forward it to your personal Warrantyx address and it lands straight in your vault — scanned, tagged, done. No more saving receipts in your inbox.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛡️</div>
+      <h3 class="feature-h3">Warranty vault</h3>
+      <p class="feature-p">Every item gets tracked individually with its own warranty period. Filter by category, search by product, or browse by year.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔔</div>
+      <h3 class="feature-h3">Expiry alerts</h3>
+      <p class="feature-p">Get notified before warranties expire. Set your own alert window — 7, 30, 90 days — so you're never caught out again.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <h3 class="feature-h3">Maximise your tax return</h3>
+      <p class="feature-p">Tag deductible items as you scan, then export a clean PDF or CSV at tax time. Claim every dollar you're entitled to — without digging through a shoebox.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📄</div>
+      <h3 class="feature-h3">PDF receipts supported</h3>
+      <p class="feature-p">Upload PDF receipts and Warrantyx renders and reads them just like photos — no special steps needed.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">☁️</div>
+      <h3 class="feature-h3">Backed by the cloud</h3>
+      <p class="feature-p">Your vault syncs securely to the cloud. Access it anywhere, restore it anytime, and never lose a receipt again.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENSHOT GALLERY -->
+<section class="gallery-section" id="screenshots">
+  <div class="gallery-header">
+    <div class="section-tag">See it in action</div>
+    <h2 class="section-h2">Every receipt, <span>safe and searchable</span></h2>
+    <p class="section-sub">From chaos to calm in a few taps. Here's how Warrantyx actually looks on your phone.</p>
+  </div>
+
+  <div class="gallery-scroll-wrap">
+    <div class="gallery-scroll">
+      <div class="gallery-item">
+        <div class="gallery-headline">Never lose <span>a receipt again</span></div>
+        <div class="phone-frame"><img src="screenshots/1_vault.jpg" alt="Vault screen showing all receipts"/></div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-headline">Scan in <span>3 seconds</span></div>
+        <div class="phone-frame"><img src="screenshots/2_scan.jpg" alt="Receipt scan screen"/></div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-headline">AI pulls out <span>every detail</span></div>
+        <div class="phone-frame"><img src="screenshots/3_receipt.jpg" alt="Receipt detail view"/></div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-headline">Email a receipt. <span>Done.</span></div>
+        <div class="phone-frame"><img src="screenshots/4_email.png" alt="Email forwarding setup"/></div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-headline">Never miss <span>an expiry</span></div>
+        <div class="phone-frame"><img src="screenshots/6_alerts.png" alt="Expiry alerts screen"/></div>
+      </div>
+
+      <div class="gallery-item">
+        <div class="gallery-headline"><span>Plans</span> that fit</div>
+        <div class="phone-frame"><img src="screenshots/5_pricing.jpg" alt="Pricing plans"/></div>
+      </div>
+    </div>
+    <div class="gallery-swipe-hint">← Swipe to see more →</div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div class="how-section" id="how">
+  <div class="how-inner">
+    <div class="section-tag">How it works</div>
+    <h2 class="section-h2">Three steps to <span>zero warranty stress</span></h2>
+    <p class="section-sub">A few seconds per receipt. Saves hours of searching when you actually need it.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-h">Scan your receipt</div>
+        <p class="step-p">Open Warrantyx, tap the big circle, and point your camera. AI reads everything in seconds — items, prices, warranty details, all extracted automatically.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-h">Review & save</div>
+        <p class="step-p">Check the AI results, tweak anything that looks off, then save. Your receipt and all its warranty data goes straight to your encrypted vault.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-h">Relax — we've got it</div>
+        <p class="step-p">Warrantyx watches your warranties automatically. You'll get an alert before anything expires, and you can pull up the original invoice any time.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section id="pricing" style="max-width:1100px;margin:0 auto">
+  <div class="section-tag">Pricing</div>
+  <h2 class="section-h2">Simple plans, <span>no surprises</span></h2>
+  <p class="section-sub">Start free, upgrade when you're ready. No lock-in.</p>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-name">Free</div>
+      <div class="price-amount"><sup>A$</sup>0<sub>/mo</sub></div>
+      <div class="price-scans">5 AI scans / month</div>
+      <div class="price-divider"></div>
+      <ul class="price-features">
+        <li>5 receipt scans per month</li>
+        <li>Full warranty vault</li>
+        <li>Expiry alerts</li>
+        <li>Cloud backup</li>
+      </ul>
+      <button class="price-btn">Get started free</button>
+    </div>
+
+    <div class="price-card featured">
+      <div class="featured-badge">Most popular</div>
+      <div class="price-name">Core</div>
+      <div class="price-amount"><sup>A$</sup>4.99<sub>/mo</sub></div>
+      <div class="price-scans">50 AI scans / month · or A$39/yr</div>
+      <div class="price-divider"></div>
+      <ul class="price-features">
+        <li>50 receipt scans per month</li>
+        <li>Email forwarding</li>
+        <li>Expiry alerts + expired history</li>
+        <li>Tax deduction export (PDF &amp; CSV)</li>
+        <li>Cloud backup &amp; restore</li>
+      </ul>
+      <button class="price-btn">Get started — Core</button>
+    </div>
+
+    <div class="price-card">
+      <div class="price-name">Pro</div>
+      <div class="price-amount"><sup>A$</sup>8.99<sub>/mo</sub></div>
+      <div class="price-scans">200 AI scans / month</div>
+      <div class="price-divider"></div>
+      <ul class="price-features">
+        <li>200 receipt scans per month</li>
+        <li>Everything in Core</li>
+        <li>Boost packs available</li>
+        <li>Priority support</li>
+      </ul>
+      <button class="price-btn">Get started — Pro</button>
+    </div>
+  </div>
+
+  <!-- Boost packs -->
+  <div style="margin-top:56px">
+    <div class="section-tag" style="margin-bottom:10px">Need more?</div>
+    <h3 style="font-family:'Sora',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px">Boost packs for Core &amp; Pro</h3>
+    <p style="font-size:15px;color:var(--muted);margin-bottom:28px">One-off scan top-ups when you have a big month. Added instantly, use them any time that month.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Boost S</div>
+        <div class="price-amount"><sup>A$</sup>1.99<sub> once</sub></div>
+        <div class="price-scans">+25 scans</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>25 bonus scans</li>
+          <li>Added instantly</li>
+          <li>Core &amp; Pro subscribers</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <div class="featured-badge">Best value</div>
+        <div class="price-name">Boost M</div>
+        <div class="price-amount"><sup>A$</sup>4.99<sub> once</sub></div>
+        <div class="price-scans">+75 scans</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>75 bonus scans</li>
+          <li>Added instantly</li>
+          <li>Core &amp; Pro subscribers</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <div class="price-name">Boost L</div>
+        <div class="price-amount"><sup>A$</sup>7.99<sub> once</sub></div>
+        <div class="price-scans">+150 scans</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>150 bonus scans</li>
+          <li>Added instantly</li>
+          <li>Core &amp; Pro subscribers</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <h2>Never lose a receipt,<br><span>ever again.</span></h2>
+  <p>Safe, simple warranty scan saved in seconds. Free forever for up to 5 scans a month.</p>
+  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+    <a class="btn-primary" href="https://warrantyx.mybizkitpro.com">Start scanning free →</a>
+    <a class="btn-ghost" href="https://mybizkitpro.com">See all MyBizKitPro apps</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <strong>Warrantyx</strong> by MyBizKitPro
+  </div>
+  <div class="footer-links">
+    <a href="https://mybizkitpro.com">MyBizKitPro</a>
+    <a href="https://quinvoix.mybizkitpro.com">Quinvoix</a>
+    <a href="mailto:hello@mybizkitpro.com">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 MyBizKitPro. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
