@@ -21,6 +21,7 @@
     #wave-canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
     body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events:none; z-index:1; }
 
+    /* ───── Nav ───── */
     nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:1rem 2rem; background:rgba(3,7,18,0.7); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
     .nav-left { display:flex; align-items:center; gap:0.5rem; text-decoration:none; }
     .nav-parent { font-family:'Clash Display',sans-serif; font-weight:600; font-size:0.8rem; color:var(--muted); }
@@ -33,6 +34,7 @@
     .nav-cta { background:var(--amber)!important; color:var(--navy)!important; padding:0.5rem 1.2rem!important; border-radius:6px!important; font-weight:700!important; transition:box-shadow 0.2s,transform 0.15s!important; }
     .nav-cta:hover { box-shadow:0 0 20px rgba(245,158,11,0.35)!important; transform:translateY(-1px)!important; color:var(--navy)!important; }
 
+    /* ───── Hero ───── */
     .hero { position:relative; z-index:2; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:8rem 1.5rem 5rem; }
     .hero-eyebrow { display:inline-flex; align-items:center; gap:0.5rem; background:var(--amber-dim); border:1px solid rgba(245,158,11,0.2); border-radius:100px; padding:0.4rem 1.1rem; font-size:0.78rem; color:var(--amber); font-weight:600; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:2rem; animation:fadeUp 0.7s ease both; }
     .dot { width:6px; height:6px; background:var(--amber); border-radius:50%; animation:pulse 2s infinite; }
@@ -76,6 +78,102 @@
     .feature-cell h3 { font-size:1rem; font-weight:600; color:var(--white); margin-bottom:0.4rem; }
     .feature-cell p { font-size:0.875rem; color:var(--muted); line-height:1.65; font-weight:300; }
 
+    /* ───── Gallery (NEW) ───── */
+    .gallery-section { position:relative; z-index:2; padding:2rem 0 5rem; }
+    .gallery-intro { max-width:1100px; margin:0 auto; padding:0 1.5rem 2.5rem; }
+    .gallery-scroll {
+      display:flex;
+      gap:1.5rem;
+      overflow-x:auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 1rem 1.5rem 2rem;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0,212,255,0.3) transparent;
+    }
+    .gallery-scroll::-webkit-scrollbar { height: 6px; }
+    .gallery-scroll::-webkit-scrollbar-track { background: transparent; }
+    .gallery-scroll::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.3); border-radius: 3px; }
+    .gallery-scroll::before,
+    .gallery-scroll::after { content:''; flex:0 0 1px; }
+
+    .phone-card {
+      flex: 0 0 auto;
+      width: 230px;
+      scroll-snap-align: start;
+      display:flex; flex-direction:column;
+      transition: transform 0.25s ease;
+    }
+    .phone-card:hover { transform: translateY(-6px); }
+
+    .phone-headline {
+      font-family:'Clash Display',sans-serif;
+      font-weight:600;
+      font-size:0.95rem;
+      line-height:1.25;
+      color:var(--white);
+      text-align:center;
+      min-height:2.8em;
+      margin-bottom:1rem;
+      padding:0 0.25rem;
+    }
+    .phone-headline span { color: var(--amber); }
+
+    .phone-frame {
+      position:relative;
+      background: linear-gradient(145deg,#0e1e35 0%,#050b17 100%);
+      border-radius: 30px;
+      padding: 8px;
+      box-shadow:
+        0 0 0 1px rgba(0,212,255,0.18),
+        0 0 24px rgba(0,212,255,0.15),
+        0 12px 30px rgba(0,0,0,0.45);
+      transition: box-shadow 0.3s ease;
+    }
+    .phone-card:hover .phone-frame {
+      box-shadow:
+        0 0 0 1px rgba(0,212,255,0.35),
+        0 0 36px rgba(0,212,255,0.28),
+        0 18px 40px rgba(0,0,0,0.55);
+    }
+    .phone-notch {
+      position:absolute; top:11px; left:50%; transform:translateX(-50%);
+      width:70px; height:14px; background:#000;
+      border-radius:0 0 10px 10px;
+      z-index:2;
+    }
+    .phone-frame img {
+      display:block;
+      width:100%;
+      border-radius: 24px;
+      aspect-ratio: 1170/2532;
+      object-fit: cover;
+      background:#0a1628;
+    }
+
+    .gallery-hint {
+      display:none;
+      text-align:center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      margin-top: 0.5rem;
+    }
+
+    /* mobile: larger phones, show 1.5 at a time, reveal swipe hint */
+    @media (max-width: 640px) {
+      .phone-card { width: 240px; }
+      .gallery-hint { display:block; }
+      .phone-headline { font-size: 1rem; }
+    }
+
+    /* tiny screens */
+    @media (max-width: 380px) {
+      .phone-card { width: 220px; }
+    }
+
+    /* ───── Templates ───── */
     .templates-wrap { position:relative; z-index:2; padding:0 1.5rem 5rem; max-width:1100px; margin:0 auto; }
     .templates-scroll { display:flex; gap:0.75rem; overflow-x:auto; padding-bottom:0.5rem; margin-top:1.5rem; scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
     .template-chip { flex-shrink:0; background:rgba(0,212,255,0.06); border:1px solid var(--border); border-radius:8px; padding:0.5rem 1.1rem; font-size:0.85rem; color:var(--text); white-space:nowrap; }
@@ -119,6 +217,7 @@
   </style>
 </head>
 <body>
+
   <canvas id="wave-canvas"></canvas>
 
   <nav>
@@ -129,6 +228,7 @@
     </a>
     <ul>
       <li><a href="#features">Features</a></li>
+      <li><a href="#demo">Gallery</a></li>
       <li><a href="#pricing">Pricing</a></li>
       <li><a href="https://quinvoix.mybizkitpro.com/" target="_blank">Sign in</a></li>
       <li><a href="https://quinvoix.mybizkitpro.com/" class="nav-cta" target="_blank">Start free trial</a></li>
@@ -141,16 +241,72 @@
     <p class="hero-sub">Quinvoix makes professional invoicing ridiculously quick. Create, send, and track invoices in seconds — no accountant required.</p>
     <div class="hero-actions">
       <a href="https://quinvoix.mybizkitpro.com/" class="btn-primary" target="_blank">Start 7-day free trial</a>
-      <a href="#demo" class="btn-ghost">Watch demo ↓</a>
+      <a href="#demo" class="btn-ghost">See it in action ↓</a>
     </div>
     <p class="hero-note">7-day free trial &nbsp;·&nbsp; Card required after trial &nbsp;·&nbsp; $8.99 AUD/month &nbsp;·&nbsp; Cancel anytime</p>
-    <div class="video-wrap" id="demo">
-      <div class="video-placeholder">
-        <div class="play-btn"><svg width="24" height="24" fill="#0a0f1a" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        <p style="font-size:0.85rem;color:var(--muted);">Demo video coming soon</p>
+  </section>
+
+  <!-- ───── GALLERY — moved here, replaces demo video ───── -->
+  <section class="gallery-section" id="demo">
+    <div class="gallery-intro">
+      <div class="section-label">See it in action</div>
+      <h2 class="section-title">Invoicing on your phone,<br/>made beautiful.</h2>
+      <p class="section-sub">Every feature, polished for mobile. Swipe through to see.</p>
+    </div>
+
+    <div class="gallery-scroll">
+      <div class="phone-card">
+        <div class="phone-headline">Every invoice,<br/><span>at a glance</span></div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <img src="screenshots/1_dashboard.jpg" alt="Dashboard — all invoices at a glance" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="phone-card">
+        <div class="phone-headline">Built for<br/><span>speed</span></div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <img src="screenshots/2_create.jpg" alt="Create invoice — step 1 details" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="phone-card">
+        <div class="phone-headline">Pro invoices,<br/><span>every time</span></div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <img src="screenshots/3_preview.jpg" alt="Professional invoice preview" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="phone-card">
+        <div class="phone-headline">Know <span>who owes what</span></div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <img src="screenshots/4_partial.jpg" alt="Partial payments and deposits tracking" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="phone-card">
+        <div class="phone-headline">BAS-ready<br/><span>every quarter</span></div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <img src="screenshots/5_tax.jpg" alt="Quarterly tax and BAS summary" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="phone-card">
+        <div class="phone-headline">Save once,<br/><span>reuse forever</span></div>
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <img src="screenshots/6_library.jpg" alt="Saved items library — quick picks" loading="lazy" />
+        </div>
       </div>
     </div>
+
+    <div class="gallery-hint">← Swipe to see more →</div>
   </section>
+  <!-- ───── /GALLERY ───── -->
 
   <div class="proof-strip">
     <p>Trusted by freelancers around the world</p>
