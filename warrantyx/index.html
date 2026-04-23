@@ -120,10 +120,19 @@
     backdrop-filter: blur(20px);
     border-bottom: 0.5px solid var(--border);
   }
-  .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .nav-brand-parent { font-size: 13px; color: var(--muted); font-weight: 500; letter-spacing: .02em; }
-  .nav-brand-sep { color: var(--border); font-size: 16px; margin: 0 2px; }
-  .nav-brand-name { font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700; color: var(--accent2); letter-spacing: -.02em; }
+  .nav-brand-wrap { display: flex; align-items: center; gap: 10px; }
+  .nav-brand-parent {
+    font-size: 13px; color: var(--muted); font-weight: 500; letter-spacing: .02em;
+    text-decoration: none; transition: color .2s;
+  }
+  .nav-brand-parent:hover { color: #fff; }
+  .nav-brand-sep { color: var(--border); font-size: 16px; margin: 0 2px; user-select: none; }
+  .nav-brand-name {
+    font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700;
+    color: var(--accent2); letter-spacing: -.02em;
+    text-decoration: none; transition: opacity .2s;
+  }
+  .nav-brand-name:hover { opacity: .85; }
   .nav-links { display: flex; align-items: center; gap: 32px; }
   .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color .2s; }
   .nav-links a:hover { color: #fff; }
@@ -492,11 +501,11 @@
 
 <!-- NAV -->
 <nav>
-  <a class="nav-brand" href="#">
-    <span class="nav-brand-parent">MyBizKitPro</span>
+  <div class="nav-brand-wrap">
+    <a class="nav-brand-parent" href="https://mybizkitpro.com">MyBizKitPro</a>
     <span class="nav-brand-sep">|</span>
-    <span class="nav-brand-name">Warrantyx</span>
-  </a>
+    <a class="nav-brand-name" href="#">Warrantyx</a>
+  </div>
   <div class="nav-links">
     <a href="#features">Features</a>
     <a href="#how">How it works</a>
