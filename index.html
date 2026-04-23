@@ -306,6 +306,12 @@
       gap: 1.5rem;
     }
 
+    /* Force clean 2x2 on medium screens — pairs Live with Live, Soon with Soon */
+    @media (min-width: 700px) {
+      .apps-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    /* Allow single row on very wide screens only if you want — kept at 2x2 for balance */
+
     /* ─── APP CARD ─── */
     .app-card {
       background: rgba(6,14,31,0.8);
@@ -611,7 +617,6 @@
       <li><a href="#apps">Our Apps</a></li>
       <li><a href="quinvoix/index.html">Quinvoix</a></li>
       <li><a href="warrantyx/index.html">Warrantyx</a></li>
-      <li><a href="quinvoix/index.html" class="nav-cta">Try Quinvoix Free</a></li>
     </ul>
   </nav>
 
@@ -624,7 +629,6 @@
     </p>
     <div class="hero-cta">
       <a href="#apps" class="btn-primary">Explore our apps</a>
-      <a href="quinvoix/index.html" class="btn-ghost">Start invoicing free →</a>
     </div>
     <div class="scroll-hint">
       <span>Scroll</span>
@@ -702,6 +706,24 @@
         <div class="app-cta-soon">Notify me when live</div>
       </div>
 
+      <!-- PROCSY — COMING SOON -->
+      <div class="app-card coming-soon">
+        <span class="card-badge badge-soon">Coming Soon</span>
+        <div class="app-icon" style="background:rgba(139,92,246,0.12); border:1px solid rgba(139,92,246,0.2);">
+          🎬
+        </div>
+        <div class="app-name">Procsy</div>
+        <div class="app-tagline">Process made easy.</div>
+        <p class="app-desc">Turn any workflow into a polished, step-by-step guide in minutes. Procsy records your screen + voice, then uses AI to build interactive onboarding guides your whole team can follow.</p>
+        <div class="app-features">
+          <div class="app-feature">Screen &amp; voice recording</div>
+          <div class="app-feature">AI-generated step-by-step guides</div>
+          <div class="app-feature">Auto-maintenance (self-healing)</div>
+          <div class="app-feature">One-click sharing</div>
+        </div>
+        <div class="app-cta-soon">Notify me when live</div>
+      </div>
+
     </div>
   </section>
 
@@ -736,9 +758,9 @@
 
   <!-- CTA BAND -->
   <div class="cta-band">
-    <h2>Ready to get started?</h2>
-    <p>Try Quinvoix free for 7 days or start Warrantyx with 5 free scans — no credit card required.</p>
-    <a href="quinvoix/index.html" class="btn-primary">Start your free trial</a>
+    <h2>Two apps live.<br/>More on the way.</h2>
+    <p>Start free with either — no credit card required.</p>
+    <a href="#apps" class="btn-primary">See all apps</a>
   </div>
 
   <!-- FOOTER -->
