@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quinvoix Guide — Create your first quote in under a minute</title>
+<meta name="description" content="A step-by-step walkthrough of Quinvoix. Create a quote, preview it, and convert it to an invoice — all in under a minute." />
+
+<!-- Open Graph -->
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="MyBizKitPro" />
+<meta property="og:title" content="Quinvoix Guide — Create your first quote in under a minute" />
+<meta property="og:description" content="A step-by-step walkthrough of Quinvoix. Create a quote, preview it, and convert it to an invoice — all in under a minute." />
+<meta property="og:url" content="https://mybizkitpro.com/quinvoix/guide/" />
+<meta property="og:image" content="https://mybizkitpro.com/quinvoix/screenshots/1_dashboard.jpg" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Quinvoix Guide — Create your first quote in under a minute" />
+<meta name="twitter:description" content="A step-by-step walkthrough of Quinvoix. Create a quote, preview it, and convert it to an invoice — all in under a minute." />
+<meta name="twitter:image" content="https://mybizkitpro.com/quinvoix/screenshots/1_dashboard.jpg" />
+
+<link rel="canonical" href="https://mybizkitpro.com/quinvoix/guide/" />
+
+<link rel="preconnect" href="https://api.fontshare.com" />
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=cabinet-grotesk@400,500,700&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --navy: #030712;
+  --navy-2: #0f172a;
+  --amber: #F59E0B;
+  --amber-glow: rgba(245, 158, 11, 0.5);
+  --aqua: #00D4FF;
+  --aqua-glow: rgba(0, 212, 255, 0.3);
+  --text: #e5e7eb;
+  --text-dim: #94a3b8;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-2: rgba(255, 255, 255, 0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: "Cabinet Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--navy);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: -20%;
+  right: -10%;
+  width: 50%;
+  height: 60%;
+  background: radial-gradient(circle, var(--amber-glow) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+h1, h2, h3 {
+  font-family: "Clash Display", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+a { color: var(--aqua); text-decoration: none; transition: color .2s; }
+a:hover { color: white; }
+
+.container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+header {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  background: rgba(3, 7, 18, 0.6);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: "Clash Display", sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: white;
+  letter-spacing: -0.02em;
+}
+
+.logo-dot { color: var(--amber); }
+
+.back-link {
+  color: var(--text-dim);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.back-link:hover { color: white; }
+
+.hero {
+  padding: 70px 0 50px;
+  text-align: center;
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: var(--amber);
+  font-weight: 500;
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 99px;
+  margin-bottom: 24px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-size: clamp(34px, 6vw, 56px);
+  color: white;
+  margin-bottom: 18px;
+}
+
+.hero h1 .accent {
+  color: var(--amber);
+  white-space: nowrap;
+}
+
+.hero p {
+  font-size: clamp(16px, 2.2vw, 19px);
+  color: var(--text-dim);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.progress {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.progress-dot {
+  width: 22px;
+  height: 4px;
+  background: var(--aqua);
+  border-radius: 2px;
+  opacity: 0.3;
+}
+
+.progress-dot:nth-child(1) { animation: shimmer 4s infinite 0s; }
+.progress-dot:nth-child(2) { animation: shimmer 4s infinite 0.3s; }
+.progress-dot:nth-child(3) { animation: shimmer 4s infinite 0.6s; }
+.progress-dot:nth-child(4) { animation: shimmer 4s infinite 0.9s; }
+.progress-dot:nth-child(5) { animation: shimmer 4s infinite 1.2s; }
+.progress-dot:nth-child(6) { animation: shimmer 4s infinite 1.5s; }
+.progress-dot:nth-child(7) { animation: shimmer 4s infinite 1.8s; }
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.steps { padding: 30px 0 60px; }
+
+.step {
+  margin-bottom: 64px;
+  padding-top: 56px;
+  border-top: 1px solid var(--border);
+}
+
+.step:first-child { border-top: none; padding-top: 0; }
+
+.step-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  background: linear-gradient(135deg, var(--amber), #d97706);
+  color: var(--navy);
+  font-family: "Clash Display", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  border-radius: 50%;
+  box-shadow: 0 6px 20px var(--amber-glow);
+}
+
+.step h2 {
+  font-size: clamp(22px, 4vw, 30px);
+  color: white;
+  margin: 0;
+}
+
+.step p {
+  font-size: 16px;
+  color: var(--text-dim);
+  margin-bottom: 28px;
+  max-width: 620px;
+}
+
+.step p strong { color: var(--text); font-weight: 500; }
+
+.phone-frame {
+  position: relative;
+  max-width: 320px;
+  margin: 0 auto;
+  border-radius: 36px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 8px #0a0e1a,
+    0 0 0 9px rgba(255,255,255,0.08),
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(245, 158, 11, 0.1);
+}
+
+.phone-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 30px;
+}
+
+.pulse-ring {
+  position: absolute;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.pulse-ring::before,
+.pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 3px solid var(--amber);
+  box-shadow: 0 0 24px var(--amber-glow);
+  animation: pulse-out 2s ease-out infinite;
+}
+
+.pulse-ring::after {
+  animation-delay: 1s;
+}
+
+@keyframes pulse-out {
+  0% { transform: scale(0.7); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.callout {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.08), rgba(0, 212, 255, 0.02));
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 14px;
+  padding: 20px 22px;
+  margin-top: 28px;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.callout strong { color: var(--aqua); }
+
+.cta {
+  padding: 70px 0 80px;
+  text-align: center;
+  background: linear-gradient(180deg, transparent, rgba(0, 212, 255, 0.06));
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+  position: relative;
+}
+
+.cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--aqua-glow) 0%, transparent 70%);
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.cta h2 {
+  font-size: clamp(28px, 5vw, 42px);
+  color: white;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.cta p {
+  color: var(--text-dim);
+  font-size: 17px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.cta-button {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--aqua), #0891b2);
+  color: var(--navy);
+  font-family: "Clash Display", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 16px 34px;
+  border-radius: 12px;
+  box-shadow: 0 0 50px var(--aqua-glow), 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  color: var(--navy);
+  box-shadow: 0 0 70px var(--aqua-glow), 0 14px 40px rgba(0, 0, 0, 0.5);
+}
+
+.cta-small {
+  display: block;
+  color: var(--text-dim);
+  font-size: 13px;
+  margin-top: 16px;
+  position: relative;
+}
+
+footer {
+  padding: 30px 0 50px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+footer a { color: var(--text-dim); margin: 0 10px; }
+footer a:hover { color: white; }
+
+@media (max-width: 600px) {
+  .container { padding: 0 18px; }
+  .hero { padding: 50px 0 36px; }
+  .step { margin-bottom: 52px; padding-top: 44px; }
+  .step-number { width: 38px; height: 38px; line-height: 38px; font-size: 16px; }
+  .phone-frame { max-width: 280px; }
+  .progress-dot { width: 18px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container header-row">
+    <div class="logo">Quinvoix<span class="logo-dot">.</span></div>
+    <a href="/quinvoix/" class="back-link">← Back to Quinvoix</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <span class="hero-eyebrow">Getting Started</span>
+    <h1>Create your first quote in <span class="accent">under a minute</span></h1>
+    <p>Seven quick steps — from blank app to a professional quote, then converted to an invoice the moment your client says yes.</p>
+    <div class="progress" aria-hidden="true">
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+      <span class="progress-dot"></span>
+    </div>
+  </div>
+</section>
+
+<section class="steps">
+  <div class="container">
+
+    <div class="step">
+      <div class="step-head">
+        <span class="step-number">1</span>
+        <h2>Open the builder</h2>
+      </div>
+      <p>Tap the orange <strong>+</strong> button in the bottom tab bar of your home screen. Every quote and invoice starts from here.</p>
+      <div class="phone-frame">
+        <img src="screenshots/1_Home_page.png" alt="Quinvoix home screen with the New Invoice button highlighted in the bottom tab bar" />
+        <span class="pulse-ring" style="top: 92.5%; left: 30%; width: 16%; aspect-ratio: 1;"></span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <span class="step-number">2</span>
+        <h2>Choose Quote</h2>
+      </div>
+      <p>Pick <strong>Quote / Estimate</strong> to send a price before work begins. (If you're billing for work already completed, choose Invoice instead — same flow, slightly different label.)</p>
+      <div class="phone-frame">
+        <img src="screenshots/2_choose_quote.png" alt="Document type selector showing Invoice and Quote options" />
+        <span class="pulse-ring" style="top: 70%; left: 71%; width: 32%; aspect-ratio: 3 / 4; border-radius: 18px;"></span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <span class="step-number">3</span>
+        <h2>Add your client</h2>
+      </div>
+      <p>Start typing the client's name. Quinvoix auto-completes from anyone you've billed before — <strong>no retyping, ever</strong>. Brand new client? Just keep typing the full details and we'll save them for next time. Or tap <strong>Client List</strong> to browse all your saved contacts.</p>
+      <div class="phone-frame">
+        <img src="screenshots/3_client_picker.jpg" alt="Client field showing autocomplete suggestions as the user types" />
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <span class="step-number">4</span>
+        <h2>Add your items</h2>
+      </div>
+      <p>Type what you're charging for: a description, quantity, and unit price. GST (or your local tax) calculates automatically based on your business settings. Tap <strong>Item List</strong> to pick from products and services you've already saved.</p>
+      <div class="phone-frame">
+        <img src="screenshots/4_line_items.jpg" alt="Line item entry with description, quantity, and unit price fields" />
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <span class="step-number">5</span>
+        <h2>Preview and create</h2>
+      </div>
+      <p>Check exactly how your quote will look before saving it. On desktop you'll see the full document; on mobile, scroll left and right to inspect the whole layout. When you're happy, tap <strong>Create Quote</strong> to save it.</p>
+      <div class="phone-frame">
+        <img src="screenshots/5_qte_preview.png" alt="Document preview screen with the Create Quote button highlighted" />
+        <span class="pulse-ring" style="top: 91.5%; left: 38%; width: 60%; aspect-ratio: 5 / 1; border-radius: 28px;"></span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <span class="step-number">6</span>
+        <h2>Convert to invoice</h2>
+      </div>
+      <p>Client said yes? Open the quote from your Documents tab and tap <strong>Convert to Invoice</strong>. The full invoice is generated instantly — <strong>no retyping, no copy-paste, no mistakes</strong>. Your original quote stays in your records as a paper trail.</p>
+      <div class="phone-frame">
+        <img src="screenshots/6_convert_to_invoice.png" alt="Quote detail screen with the Convert to Invoice button highlighted" />
+        <span class="pulse-ring" style="top: 38.5%; left: 50%; width: 88%; aspect-ratio: 8 / 1; border-radius: 18px;"></span>
+      </div>
+      <div class="callout">
+        <strong>Why this matters:</strong> Most invoicing apps make you rebuild the invoice from scratch. Quinvoix carries everything across — client, line items, tax, notes — so the whole quote-to-paid workflow takes seconds, not minutes.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <span class="step-number">7</span>
+        <h2>One number, two documents</h2>
+      </div>
+      <p>After converting, you'll see both <strong>#QTE-10680</strong> (the original quote) and <strong>#INV-10680</strong> (the matching invoice) in your Documents view. They share the same number for easy tracking. Keep the quote for your records, or delete it if you're done with it — your call.</p>
+      <div class="phone-frame">
+        <img src="screenshots/7_document_view.jpg" alt="Documents view showing the quote and matching invoice as separate entries" />
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <h2>Ready to bill your first client?</h2>
+    <p>Start your 7-day free trial. Card required after trial.</p>
+    <a href="https://main.d200megm9mx1e6.amplifyapp.com" class="cta-button">Start free trial →</a>
+    <span class="cta-small">Cancel anytime · A$8.99/month after trial</span>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <a href="https://mybizkitpro.com/">MyBizKitPro</a> ·
+    <a href="/quinvoix/">Quinvoix</a> ·
+    <a href="/quinvoix/guide/">Guide</a>
+  </div>
+</footer>
+
+</body>
+</html>
