@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>How to Use Warrantyx — Step-by-Step Guide</title>
+<meta name="description" content="Learn how to use Warrantyx in 2 minutes. Scan receipts, track tax deductions, set up email forwarding, and never lose a warranty again." />
+<meta property="og:title" content="How to Use Warrantyx" />
+<meta property="og:description" content="Step-by-step guide to scanning receipts, tracking tax, and managing warranties." />
+<meta property="og:url" content="https://mybizkitpro.com/warrantyx/guide.html" />
+<meta property="og:type" content="article" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/png" href="https://warrantyx.mybizkitpro.com/App_Icon.png" />
+
+<style>
+  :root {
+    --bg-deep: #050818;
+    --bg-mid: #0a1230;
+    --bg-light: #122050;
+    --accent: #3b82f6;
+    --accent-bright: #60a5fa;
+    --accent-glow: rgba(59, 130, 246, 0.35);
+    --text-primary: #ffffff;
+    --text-secondary: #b4c3dc;
+    --text-muted: #6b7a99;
+    --card-bg: rgba(255, 255, 255, 0.04);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --shield-red: #dc2626;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* ── Animated background ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(59, 130, 246, 0.18), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(59, 130, 246, 0.12), transparent 45%),
+      linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-mid) 50%, var(--bg-deep) 100%);
+    z-index: -2;
+    pointer-events: none;
+  }
+
+  /* Drifting particles */
+  .particles {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    animation: drift 25s linear infinite;
+  }
+  .particle:nth-child(1) { left: 10%; animation-duration: 32s; animation-delay: 0s; }
+  .particle:nth-child(2) { left: 25%; animation-duration: 28s; animation-delay: -8s; width: 1px; height: 1px; }
+  .particle:nth-child(3) { left: 40%; animation-duration: 35s; animation-delay: -15s; width: 3px; height: 3px; opacity: 0.6; }
+  .particle:nth-child(4) { left: 55%; animation-duration: 30s; animation-delay: -5s; }
+  .particle:nth-child(5) { left: 70%; animation-duration: 26s; animation-delay: -12s; width: 1px; height: 1px; }
+  .particle:nth-child(6) { left: 85%; animation-duration: 33s; animation-delay: -20s; }
+  .particle:nth-child(7) { left: 95%; animation-duration: 29s; animation-delay: -3s; width: 2px; height: 2px; }
+
+  @keyframes drift {
+    0% { transform: translateY(110vh) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-10vh) translateX(40px); opacity: 0; }
+  }
+
+  /* Comet streaks */
+  .comet {
+    position: fixed;
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-bright), transparent);
+    transform: rotate(-25deg);
+    animation: comet 12s linear infinite;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .comet:nth-child(1) { top: 15%; animation-delay: 0s; }
+  .comet:nth-child(2) { top: 45%; animation-delay: -7s; }
+  .comet:nth-child(3) { top: 75%; animation-delay: -4s; }
+
+  @keyframes comet {
+    0% { right: -200px; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { right: calc(100% + 200px); opacity: 0; }
+  }
+
+  /* ── Top nav ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5, 8, 24, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--card-border);
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+  }
+  .nav-brand .parent {
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .nav-brand .sep { color: var(--text-muted); font-weight: 300; }
+  .nav-cta {
+    background: var(--accent);
+    color: white;
+    padding: 9px 18px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: transform 0.15s ease, background 0.15s ease;
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+  .nav-cta:hover { transform: translateY(-1px); background: var(--accent-bright); }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    padding: 80px 24px 40px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-bright);
+    margin-bottom: 20px;
+    padding: 6px 14px;
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    background: var(--card-bg);
+  }
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 18px;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(135deg, var(--accent-bright), #93c5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 32px;
+  }
+
+  /* ── Jump nav ── */
+  .jump-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    max-width: 800px;
+    margin: 0 auto 60px;
+    padding: 0 24px;
+  }
+  .jump-nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    background: var(--card-bg);
+    transition: all 0.15s ease;
+  }
+  .jump-nav a:hover {
+    color: var(--text-primary);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .jump-nav a .num {
+    color: var(--accent-bright);
+    margin-right: 6px;
+    font-weight: 700;
+  }
+
+  /* ── Section ── */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    scroll-margin-top: 80px;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .section-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #1d4ed8);
+    color: white;
+    font-weight: 800;
+    font-size: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 0 30px var(--accent-glow);
+  }
+  .section h2 {
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .section-sub {
+    font-size: 17px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ── Step grid ── */
+  .step-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
+    align-items: start;
+  }
+  .step {
+    text-align: center;
+  }
+  .step-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-bright);
+    background: rgba(59, 130, 246, 0.12);
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .step h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .step p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    min-height: 42px;
+  }
+
+  /* ── iPhone mockup (CSS only) ── */
+  .phone {
+    position: relative;
+    width: 230px;
+    margin: 0 auto;
+    aspect-ratio: 9 / 19.5;
+    background: #1a1f2e;
+    border-radius: 36px;
+    padding: 8px;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 20px 60px rgba(0, 0, 0, 0.5),
+      0 0 80px rgba(59, 130, 246, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .phone:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 0 0 1px rgba(59, 130, 246, 0.4),
+      0 30px 80px rgba(0, 0, 0, 0.6),
+      0 0 120px rgba(59, 130, 246, 0.25);
+  }
+  .phone::before {
+    /* Notch / Dynamic Island */
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 22px;
+    background: #0a0d18;
+    border-radius: 999px;
+    z-index: 2;
+  }
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #f2f2f7;
+    position: relative;
+  }
+  .phone-screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+
+  /* Connecting arrows between steps (desktop only) */
+  .step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -24px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: 24px;
+    font-weight: 300;
+    opacity: 0;
+  }
+  @media (min-width: 900px) {
+    .step-grid {
+      position: relative;
+    }
+  }
+
+  /* ── Tip callout ── */
+  .tip {
+    max-width: 700px;
+    margin: 40px auto 0;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(59, 130, 246, 0.02));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-left: 3px solid var(--accent);
+    border-radius: 12px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .tip strong { color: var(--text-primary); }
+
+  /* ── Section divider ── */
+  .divider {
+    max-width: 200px;
+    margin: 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--card-border), transparent);
+  }
+
+  /* ── CTA footer ── */
+  .cta-footer {
+    margin: 100px auto 0;
+    padding: 80px 24px 60px;
+    text-align: center;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15), transparent 70%),
+      linear-gradient(180deg, transparent, rgba(59, 130, 246, 0.05));
+    border-top: 1px solid var(--card-border);
+  }
+  .cta-footer h2 {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .cta-footer p {
+    color: var(--text-secondary);
+    font-size: 17px;
+    margin-bottom: 32px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cta-button {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent), #1d4ed8);
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 17px;
+    padding: 16px 36px;
+    border-radius: 999px;
+    box-shadow: 0 0 40px var(--accent-glow);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 60px var(--accent-glow);
+  }
+  .cta-meta {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* ── Site footer ── */
+  .site-footer {
+    padding: 32px 24px;
+    text-align: center;
+    border-top: 1px solid var(--card-border);
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  .site-footer a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin: 0 12px;
+  }
+  .site-footer a:hover { color: var(--accent-bright); }
+
+  /* ── Mobile adjustments ── */
+  @media (max-width: 768px) {
+    .hero { padding: 50px 20px 30px; }
+    .section { padding: 40px 16px; }
+    .step-grid { gap: 40px; }
+    .phone { width: 200px; }
+    .nav { padding: 12px 16px; }
+    .nav-brand { font-size: 15px; }
+    .nav-brand .parent { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Animated background -->
+<div class="particles">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
+<div class="comet"></div>
+<div class="comet"></div>
+<div class="comet"></div>
+
+<!-- Top nav -->
+<nav class="nav">
+  <a href="/" class="nav-brand">
+    <span class="parent">MyBizKitPro</span>
+    <span class="sep">·</span>
+    <span>Warrantyx Guide</span>
+  </a>
+  <a href="https://warrantyx.mybizkitpro.com" class="nav-cta">Open App →</a>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <span class="hero-eyebrow">Step-by-Step Guide</span>
+  <h1>Master Warrantyx in <span class="accent">2 minutes</span></h1>
+  <p>Five short walkthroughs covering everything from your first scan to email forwarding and tax exports. Built for busy people who'd rather see than read.</p>
+</header>
+
+<!-- Jump nav -->
+<nav class="jump-nav" aria-label="Sections">
+  <a href="#signup"><span class="num">1</span>Sign up & first scan</a>
+  <a href="#scanning"><span class="num">2</span>Scanning a receipt</a>
+  <a href="#tax"><span class="num">3</span>Tax tracking & export</a>
+  <a href="#email"><span class="num">4</span>Email forwarding</a>
+  <a href="#plans"><span class="num">5</span>Plans & boost packs</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- Section 1 — Signup & first scan -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<section class="section" id="signup">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <h2>Create your account</h2>
+    <p class="section-sub">Takes 30 seconds. We'll send a confirmation email — click the link, and you're in.</p>
+  </div>
+
+  <div class="step-grid">
+    <div class="step">
+      <span class="step-label">Step 1</span>
+      <h3>Sign Up</h3>
+      <p>Open warrantyx.mybizkitpro.com and tap Sign Up. Email and password — that's it.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/01_signup.png" alt="Warrantyx signup screen with Email and Password fields" loading="lazy" /></div></div>
+    </div>
+
+    <div class="step">
+      <span class="step-label">Step 2</span>
+      <h3>Confirm your email</h3>
+      <p>Check your inbox for a confirmation link. The app shows a green check while you wait.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/02_confirm_email.png" alt="Email confirmation screen" loading="lazy" /></div></div>
+    </div>
+
+    <div class="step">
+      <span class="step-label">Step 3</span>
+      <h3>You're in</h3>
+      <p>Land in your empty vault. Receipts, warranties, and tax claims will fill in as you scan.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/03_empty_vault.jpg" alt="Empty vault home screen" loading="lazy" /></div></div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>Tip:</strong> No confirmation email? Check Spam/Junk and mark it Not Spam — future emails will land in your inbox.</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- Section 2 — Scanning a receipt -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<section class="section" id="scanning">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <h2>Scan your first receipt</h2>
+    <p class="section-sub">Snap it with your camera, upload a file, or do a multi-page scan. AI extracts merchant, total, date, and warranty automatically.</p>
+  </div>
+
+  <div class="step-grid">
+    <div class="step">
+      <span class="step-label">Step 1</span>
+      <h3>Tap Add</h3>
+      <p>Tap the big circle to launch the camera, or pick Upload File / Multi / Manual underneath.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/04_scan_options.jpg" alt="Add Receipt screen with Tap to Scan and upload options" loading="lazy" /></div></div>
+    </div>
+
+    <div class="step">
+      <span class="step-label">Step 2</span>
+      <h3>Frame the receipt</h3>
+      <p>Lay it flat, point your camera, tap the shutter. No cropping needed — AI handles it.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/05_viewfinder.jpg" alt="Camera viewfinder pointed at a receipt" loading="lazy" /></div></div>
+    </div>
+
+    <div class="step">
+      <span class="step-label">Step 3</span>
+      <h3>Review extracted data</h3>
+      <p>AI fills in everything. Confirm the details look right and save — it's now in your vault.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/06_scan_review.jpg" alt="Scan review showing extracted merchant, date, items" loading="lazy" /></div></div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>Tip:</strong> PDF invoices work too. Use <strong>Upload File</strong> instead of the camera and AI extracts data from the PDF the same way.</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- Section 3 — Tax toggle & export -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<section class="section" id="tax">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <h2>Tax tracking that survives EOFY</h2>
+    <p class="section-sub">Toggle Tax Deductible on any receipt. At tax time, export everything as a CSV or PDF report — itemised, GST-broken-down, ready for your accountant.</p>
+  </div>
+
+  <div class="step-grid">
+    <div class="step">
+      <span class="step-label">Step 1</span>
+      <h3>Toggle on the receipt</h3>
+      <p>Open any receipt, flip the Tax Deductible switch. GST and ex-tax amounts calculate instantly.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/07_tax_toggle.jpg" alt="Receipt detail with Tax Deductible toggle on" loading="lazy" /></div></div>
+    </div>
+
+    <div class="step">
+      <span class="step-label">Step 2</span>
+      <h3>See your year-to-date totals</h3>
+      <p>Insights tab shows tax claimable, GST paid, and a category breakdown for the financial year.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/08_tax_export.jpg" alt="Tax Deductions insights with totals and category breakdown" loading="lazy" /></div></div>
+    </div>
+
+    <div class="step">
+      <span class="step-label">Step 3</span>
+      <h3>Export for your accountant</h3>
+      <p>Tap PDF Report or CSV. Get an itemised summary with every receipt, GST, and ex-tax amount.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/09_tax_pdf.jpg" alt="Exported PDF tax summary report" loading="lazy" /></div></div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>Tip:</strong> The tax note field on each receipt (e.g. <em>"WFH equipment"</em>) flows straight through to the PDF report's Purpose column. Future-you will thank present-you.</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- Section 4 — Email forwarding -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<section class="section" id="email">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <h2>Set up email forwarding</h2>
+    <p class="section-sub">Save digital receipts without lifting a finger. Forward any receipt email to your unique address — Warrantyx scans the attachment and adds it to your vault automatically.</p>
+  </div>
+
+  <div class="step-grid">
+    <div class="step">
+      <span class="step-label">Step 1</span>
+      <h3>Get your forwarding address</h3>
+      <p>Settings → Email Forwarding. Tap Copy. Save it as a contact named <em>"Warrantyx"</em> in your email app.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/10_forwarding_address.jpg" alt="Settings showing personal forwarding address" loading="lazy" /></div></div>
+    </div>
+
+    <div class="step">
+      <span class="step-label">Step 2</span>
+      <h3>Forward a receipt</h3>
+      <p>When a receipt email arrives, hit Forward and send it to your Warrantyx contact. Done.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/11_gmail_forward.jpg" alt="Gmail forward screen with Warrantyx address in To field" loading="lazy" /></div></div>
+    </div>
+
+    <div class="step">
+      <span class="step-label">Step 3</span>
+      <h3>Get instant confirmation</h3>
+      <p>~30 seconds later you'll get a "1 receipt imported" email and the receipt appears in your vault.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/12_scan_confirmed.jpg" alt="Confirmation email - 1 receipt imported to Warrantyx" loading="lazy" /></div></div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>Tip — first time only:</strong> The first confirmation email may land in Spam/Junk. Mark it as Not Spam and all future ones go straight to your inbox. Available on the Core and Pro plans.</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- Section 5 — Plans & boost packs -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<section class="section" id="plans">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <h2>Plans & boost packs</h2>
+    <p class="section-sub">Free includes 5 scans per month. Upgrade for more, or top up any time with a one-time boost pack.</p>
+  </div>
+
+  <div class="step-grid">
+    <div class="step">
+      <span class="step-label">Plans</span>
+      <h3>Free, Core, or Pro</h3>
+      <p>Free for 5 scans/mo. Core $4.99/mo for 50 scans + tax exports + email forwarding. Pro $8.99/mo for 200 scans + priority AI.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/13_plan_picker.jpg" alt="Plan picker screen showing Core and Pro tiers" loading="lazy" /></div></div>
+    </div>
+
+    <div class="step">
+      <span class="step-label">Top-ups</span>
+      <h3>Need more scans this month?</h3>
+      <p>Buy a one-time boost pack: 25, 75, or 150 extra scans. Stays valid for 3 months — no subscription change.</p>
+      <div class="phone"><div class="phone-screen"><img src="guide-screenshots/14_boost_packs.jpg" alt="Boost pack options 25, 75, 150 scans" loading="lazy" /></div></div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>Tip:</strong> Annual Core ($39/yr) saves 35% vs paying monthly. Same 50 scans/month, just billed once a year.</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- CTA Footer -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<section class="cta-footer">
+  <h2>Ready to never lose a receipt again?</h2>
+  <p>Free plan, 5 scans every month, no credit card required.</p>
+  <a href="https://warrantyx.mybizkitpro.com" class="cta-button">Open Warrantyx →</a>
+  <div class="cta-meta">warrantyx.mybizkitpro.com</div>
+</section>
+
+<footer class="site-footer">
+  <div>
+    <a href="/">MyBizKitPro Home</a>
+    ·
+    <a href="/warrantyx/">Warrantyx Landing</a>
+    ·
+    <a href="https://warrantyx.mybizkitpro.com">Open App</a>
+  </div>
+  <div style="margin-top:14px">© 2026 MyBizKitPro · Warrantyx — Safe, simple warranty saved in seconds.</div>
+</footer>
+
+</body>
+</html>
