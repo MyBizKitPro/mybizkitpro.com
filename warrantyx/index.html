@@ -409,6 +409,25 @@
   .step-p { font-size: 14px; color: var(--muted); line-height: 1.6; }
   .step-connector { display: none; }
 
+  .how-cta {
+    text-align: center;
+    margin-top: 56px;
+  }
+  .how-cta a {
+    color: var(--accent2);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .01em;
+    border-bottom: 1px solid rgba(56,182,255,0.3);
+    padding-bottom: 2px;
+    transition: border-color .2s, color .2s;
+  }
+  .how-cta a:hover {
+    color: #fff;
+    border-bottom-color: var(--accent2);
+  }
+
   /* ── PRICING ── */
   .pricing-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 60px;
@@ -522,6 +541,7 @@
   <div class="nav-links">
     <a href="#features">Features</a>
     <a href="#how">How it works</a>
+    <a href="guide.html">Guide</a>
     <a href="#pricing">Pricing</a>
     <a href="https://warrantyx.mybizkitpro.com">Sign in</a>
   </div>
@@ -714,6 +734,9 @@
         <div class="step-h">Relax — we've got it</div>
         <p class="step-p">Warrantyx watches your warranties automatically. You'll get an alert before anything expires, and you can pull up the original invoice any time.</p>
       </div>
+    </div>
+    <div class="how-cta">
+      <a href="guide.html">Want a full walkthrough? See the step-by-step guide →</a>
     </div>
   </div>
 </div>
