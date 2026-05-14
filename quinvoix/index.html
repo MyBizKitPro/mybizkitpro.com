@@ -4,20 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quinvoix — Professional invoices in seconds</title>
-  <meta name="description" content="Professional invoicing, ridiculously quick. Create, send, and track invoices in seconds — no accountant required. 7-day free trial, $8.99 AUD/month." />
+  <meta name="description" content="Professional invoicing, ridiculously quick. Create, send, and track invoices in seconds — no accountant required. 30-day free trial, $8.99 AUD/month." />
 
   <!-- Open Graph (Facebook, iMessage, Slack, WhatsApp, LinkedIn) -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="MyBizKitPro" />
   <meta property="og:title" content="Quinvoix — Professional invoices in seconds" />
-  <meta property="og:description" content="Professional invoicing, ridiculously quick. Create, send, and track invoices in seconds — no accountant required. 7-day free trial, $8.99 AUD/month." />
+  <meta property="og:description" content="Professional invoicing, ridiculously quick. Create, send, and track invoices in seconds — no accountant required. 30-day free trial, $8.99 AUD/month." />
   <meta property="og:url" content="https://mybizkitpro.com/quinvoix/" />
   <meta property="og:image" content="https://mybizkitpro.com/quinvoix/screenshots/1_dashboard.jpg" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Quinvoix — Professional invoices in seconds" />
-  <meta name="twitter:description" content="Professional invoicing, ridiculously quick. Create, send, and track invoices in seconds — no accountant required. 7-day free trial, $8.99 AUD/month." />
+  <meta name="twitter:description" content="Professional invoicing, ridiculously quick. Create, send, and track invoices in seconds — no accountant required. 30-day free trial, $8.99 AUD/month." />
   <meta name="twitter:image" content="https://mybizkitpro.com/quinvoix/screenshots/1_dashboard.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -92,7 +92,7 @@
     .feature-cell h3 { font-size:1rem; font-weight:600; color:var(--white); margin-bottom:0.4rem; }
     .feature-cell p { font-size:0.875rem; color:var(--muted); line-height:1.65; font-weight:300; }
 
-    /* ───── Gallery (NEW) ───── */
+    /* ───── Gallery ───── */
     .gallery-section { position:relative; z-index:2; padding:2rem 0 5rem; }
     .gallery-intro { max-width:1100px; margin:0 auto; padding:0 1.5rem 2.5rem; }
     .gallery-scroll {
@@ -192,6 +192,35 @@
     .templates-scroll { display:flex; gap:0.75rem; overflow-x:auto; padding-bottom:0.5rem; margin-top:1.5rem; scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
     .template-chip { flex-shrink:0; background:rgba(0,212,255,0.06); border:1px solid var(--border); border-radius:8px; padding:0.5rem 1.1rem; font-size:0.85rem; color:var(--text); white-space:nowrap; }
 
+    /* ───── Privacy / Trust block ───── */
+    .privacy-section { position:relative; z-index:2; padding:5rem 1.5rem 2rem; max-width:1100px; margin:0 auto; }
+    .privacy-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1.2rem; margin-top:0.8rem; }
+    .privacy-card { background:rgba(6,14,31,0.7); border:1px solid var(--border); border-radius:16px; padding:1.8rem; display:flex; gap:1rem; align-items:flex-start; backdrop-filter:blur(8px); transition:border-color 0.2s; }
+    .privacy-card:hover { border-color:rgba(0,212,255,0.3); }
+    .privacy-icon { font-size:1.6rem; flex-shrink:0; margin-top:2px; }
+    .privacy-card h3 { font-size:0.95rem; font-weight:700; color:var(--white); margin-bottom:0.4rem; }
+    .privacy-card p { font-size:0.85rem; color:var(--muted); line-height:1.6; font-weight:300; }
+
+    /* ───── Launch offer banner ───── */
+    .launch-banner {
+      position:relative; z-index:2; max-width:760px; margin:0 auto 2rem;
+      background:linear-gradient(135deg, rgba(245,158,11,0.12) 0%, rgba(0,212,255,0.08) 100%);
+      border:1px solid rgba(245,158,11,0.3);
+      border-radius:14px; padding:1.1rem 1.4rem;
+      display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:0.4rem;
+      font-size:0.95rem; color:var(--text); text-align:center;
+    }
+    .launch-banner strong { color:var(--amber); font-weight:700; }
+    .launch-code {
+      display:inline-block; background:rgba(245,158,11,0.18);
+      border:1px dashed rgba(245,158,11,0.5);
+      color:var(--amber); font-weight:700;
+      font-family:'Cabinet Grotesk',monospace;
+      letter-spacing:0.05em;
+      padding:0.15rem 0.55rem; border-radius:6px;
+      margin:0 0.2rem;
+    }
+
     .pricing-wrap { display:flex; gap:1.5rem; flex-wrap:wrap; justify-content:center; }
     .pricing-card { background:rgba(6,14,31,0.85); border:1px solid var(--border); border-radius:20px; padding:2.5rem; flex:1; min-width:280px; max-width:380px; backdrop-filter:blur(8px); position:relative; transition:border-color 0.2s,transform 0.2s; }
     .pricing-card.featured { border-color:var(--amber); background:linear-gradient(160deg,rgba(245,158,11,0.07) 0%,rgba(6,14,31,0.85) 60%); }
@@ -227,6 +256,31 @@
     footer a:hover { color:var(--aqua); }
 
     @keyframes fadeUp { from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)} }
+
+    /* ───── Scroll-reveal animations ───── */
+    /* Base hidden state. Elements become visible when .is-visible is added by IntersectionObserver. */
+    .reveal {
+      opacity: 0;
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      will-change: opacity, transform;
+    }
+    .reveal.reveal-up      { transform: translateY(20px); }
+    .reveal.reveal-right   { transform: translateX(40px); }
+    .reveal.reveal-scale   { transform: scale(0.96); }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+    /* Staggered delay helpers — applied via data-delay attribute, mapped in JS to inline transition-delay */
+
+    /* Respect users who prefer reduced motion: skip all reveal animation entirely */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .hero-eyebrow, .hero h1, .hero-sub, .hero-actions, .hero-note, .video-wrap { animation: none !important; opacity: 1 !important; transform: none !important; }
+      .dot { animation: none !important; }
+      html { scroll-behavior: auto; }
+    }
+
     @media (max-width:640px) { nav ul{display:none;} footer{flex-direction:column;text-align:center;} }
   </style>
 </head>
@@ -255,22 +309,22 @@
     <h1>Invoice fast.<br/><span class="amber">Get paid faster.</span></h1>
     <p class="hero-sub">Quinvoix makes professional invoicing ridiculously quick. Create, send, and track invoices in seconds — no accountant required.</p>
     <div class="hero-actions">
-      <a href="https://quinvoix.mybizkitpro.com/" class="btn-primary" target="_blank">Start 7-day free trial</a>
+      <a href="https://quinvoix.mybizkitpro.com/" class="btn-primary" target="_blank">Start 30-day free trial</a>
       <a href="#demo" class="btn-ghost">See it in action ↓</a>
     </div>
-    <p class="hero-note">7-day free trial &nbsp;·&nbsp; Card required after trial &nbsp;·&nbsp; $8.99 AUD/month &nbsp;·&nbsp; Cancel anytime</p>
+    <p class="hero-note">30-day free trial &nbsp;·&nbsp; Card required after trial &nbsp;·&nbsp; $8.99 AUD/month &nbsp;·&nbsp; Cancel anytime</p>
   </section>
 
-  <!-- ───── GALLERY — moved here, replaces demo video ───── -->
+  <!-- ───── GALLERY ───── -->
   <section class="gallery-section" id="demo">
     <div class="gallery-intro">
-      <div class="section-label">See it in action</div>
-      <h2 class="section-title">Invoicing on your phone,<br/>made beautiful.</h2>
-      <p class="section-sub">Every feature, polished for mobile. Swipe through to see.</p>
+      <div class="section-label reveal reveal-up">See it in action</div>
+      <h2 class="section-title reveal reveal-up" data-delay="80">Invoicing on your phone,<br/>made beautiful.</h2>
+      <p class="section-sub reveal reveal-up" data-delay="160">Every feature, polished for mobile. Swipe through to see.</p>
     </div>
 
     <div class="gallery-scroll">
-      <div class="phone-card">
+      <div class="phone-card reveal reveal-right" data-delay="0">
         <div class="phone-headline">Every invoice,<br/><span>at a glance</span></div>
         <div class="phone-frame">
           <div class="phone-notch"></div>
@@ -278,7 +332,7 @@
         </div>
       </div>
 
-      <div class="phone-card">
+      <div class="phone-card reveal reveal-right" data-delay="100">
         <div class="phone-headline">Built for<br/><span>speed</span></div>
         <div class="phone-frame">
           <div class="phone-notch"></div>
@@ -286,7 +340,7 @@
         </div>
       </div>
 
-      <div class="phone-card">
+      <div class="phone-card reveal reveal-right" data-delay="200">
         <div class="phone-headline">Pro invoices,<br/><span>every time</span></div>
         <div class="phone-frame">
           <div class="phone-notch"></div>
@@ -294,7 +348,7 @@
         </div>
       </div>
 
-      <div class="phone-card">
+      <div class="phone-card reveal reveal-right" data-delay="300">
         <div class="phone-headline">Know <span>who owes what</span></div>
         <div class="phone-frame">
           <div class="phone-notch"></div>
@@ -302,7 +356,7 @@
         </div>
       </div>
 
-      <div class="phone-card">
+      <div class="phone-card reveal reveal-right" data-delay="400">
         <div class="phone-headline">BAS-ready<br/><span>every quarter</span></div>
         <div class="phone-frame">
           <div class="phone-notch"></div>
@@ -310,7 +364,7 @@
         </div>
       </div>
 
-      <div class="phone-card">
+      <div class="phone-card reveal reveal-right" data-delay="500">
         <div class="phone-headline">Save once,<br/><span>reuse forever</span></div>
         <div class="phone-frame">
           <div class="phone-notch"></div>
@@ -324,58 +378,101 @@
   <!-- ───── /GALLERY ───── -->
 
   <div class="proof-strip">
-    <p>Trusted by freelancers around the world</p>
+    <p class="reveal reveal-up">Trusted by freelancers around the world</p>
     <div class="proof-tags">
-      <span class="proof-tag">🔨 Tradies</span>
-      <span class="proof-tag">💻 Web designers</span>
-      <span class="proof-tag">📸 Photographers</span>
-      <span class="proof-tag">🧑‍💼 Consultants</span>
-      <span class="proof-tag">🏗 Contractors</span>
-      <span class="proof-tag">🎨 Creatives</span>
-      <span class="proof-tag">🚚 Transport</span>
+      <span class="proof-tag reveal reveal-up" data-delay="0">🔨 Tradies</span>
+      <span class="proof-tag reveal reveal-up" data-delay="60">💻 Web designers</span>
+      <span class="proof-tag reveal reveal-up" data-delay="120">📸 Photographers</span>
+      <span class="proof-tag reveal reveal-up" data-delay="180">🧑‍💼 Consultants</span>
+      <span class="proof-tag reveal reveal-up" data-delay="240">🏗 Contractors</span>
+      <span class="proof-tag reveal reveal-up" data-delay="300">🎨 Creatives</span>
+      <span class="proof-tag reveal reveal-up" data-delay="360">🚚 Transport</span>
     </div>
   </div>
 
   <section class="content">
-    <div class="section-label">The problem</div>
-    <h2 class="section-title">Still emailing Word<br/>doc invoices?</h2>
-    <p class="section-sub">You're leaving money on the table and wasting hours every week. Sound familiar?</p>
+    <div class="section-label reveal reveal-up">The problem</div>
+    <h2 class="section-title reveal reveal-up" data-delay="80">Still emailing Word<br/>doc invoices?</h2>
+    <p class="section-sub reveal reveal-up" data-delay="160">You're leaving money on the table and wasting hours every week. Sound familiar?</p>
     <div class="pain-grid">
-      <div class="pain-card"><div class="pain-icon">😤</div><div><h3>Chasing unpaid invoices</h3><p>No system to track what's paid, what's overdue, or who owes you money.</p></div></div>
-      <div class="pain-card"><div class="pain-icon">📄</div><div><h3>Messy Word or Excel templates</h3><p>Formatting breaks, tax is wrong, and every invoice looks different.</p></div></div>
-      <div class="pain-card"><div class="pain-icon">🧮</div><div><h3>Manual tax calculations</h3><p>Calculating GST, VAT, or sales tax by hand and hoping you got it right.</p></div></div>
-      <div class="pain-card"><div class="pain-icon">💸</div><div><h3>Paying too much for software</h3><p>Xero, QuickBooks, and MYOB charge $50–$80/month for features you'll never use.</p></div></div>
+      <div class="pain-card reveal reveal-up" data-delay="0"><div class="pain-icon">😤</div><div><h3>Chasing unpaid invoices</h3><p>No system to track what's paid, what's overdue, or who owes you money.</p></div></div>
+      <div class="pain-card reveal reveal-up" data-delay="80"><div class="pain-icon">📄</div><div><h3>Messy Word or Excel templates</h3><p>Formatting breaks, tax is wrong, and every invoice looks different.</p></div></div>
+      <div class="pain-card reveal reveal-up" data-delay="160"><div class="pain-icon">🧮</div><div><h3>Manual tax calculations</h3><p>Calculating GST, VAT, or sales tax by hand and hoping you got it right.</p></div></div>
+      <div class="pain-card reveal reveal-up" data-delay="240"><div class="pain-icon">💸</div><div><h3>Paying too much for software</h3><p>Xero, QuickBooks, and MYOB charge $50–$80/month for features you'll never use.</p></div></div>
     </div>
   </section>
 
   <section class="content" id="features" style="padding-top:0;">
-    <div class="section-label">Features</div>
-    <h2 class="section-title">Everything you need.<br/>Nothing you don't.</h2>
-    <p class="section-sub">Lean, fast, and tax-ready out of the box.</p>
+    <div class="section-label reveal reveal-up">Features</div>
+    <h2 class="section-title reveal reveal-up" data-delay="80">Everything you need.<br/>Nothing you don't.</h2>
+    <p class="section-sub reveal reveal-up" data-delay="160">Lean, fast, and tax-ready out of the box.</p>
     <div class="features-grid">
-      <div class="feature-cell"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><h3>144+ design combinations</h3><p>12 professional templates × 12 backgrounds. Mix and match to find a look that's truly yours — every combo print-ready and tax-compliant from day one.</p></div>
-      <div class="feature-cell"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><h3>Tax-ready by default</h3><p>Automatic calculations — inclusive or exclusive. Supports GST, VAT, and custom rates across 11 countries.</p></div>
-      <div class="feature-cell"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><h3>Invoices in your client's language</h3><p>Send fully translated invoices in 9 languages — English, Spanish, French, Portuguese, German, Italian, Japanese, Chinese, and Arabic. Language auto-selects based on your country.</p></div>
-      <div class="feature-cell"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><h3>Quotes that convert</h3><p>Send a quote, win the job, convert it to an invoice in one click. QTE → INV automatically.</p></div>
-      <div class="feature-cell"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><h3>Partial payments &amp; deposits</h3><p>Collect a deposit upfront, track partial payments, and issue receipts automatically.</p></div>
-      <div class="feature-cell"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><h3>Auto-save drafts</h3><p>Never lose work. Quinvoix saves your invoice draft automatically every 800ms while you type.</p></div>
-      <div class="feature-cell"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h3>Live preview</h3><p>See exactly how your invoice looks as you build — desktop two-panel layout, no tab switching.</p></div>
+      <div class="feature-cell reveal reveal-up" data-delay="0"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><h3>144+ design combinations</h3><p>12 professional templates × 12 backgrounds. Mix and match to find a look that's truly yours — every combo print-ready and tax-compliant from day one.</p></div>
+      <div class="feature-cell reveal reveal-up" data-delay="80"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><h3>Tax-ready by default</h3><p>Automatic calculations — inclusive or exclusive. Supports GST, VAT, and custom rates across 11 countries.</p></div>
+      <div class="feature-cell reveal reveal-up" data-delay="160"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><h3>Invoices in your client's language</h3><p>Send fully translated invoices in 9 languages — English, Spanish, French, Portuguese, German, Italian, Japanese, Chinese, and Arabic. Language auto-selects based on your country.</p></div>
+      <div class="feature-cell reveal reveal-up" data-delay="240"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><h3>Quotes that convert</h3><p>Send a quote, win the job, convert it to an invoice in one click. QTE → INV automatically.</p></div>
+      <div class="feature-cell reveal reveal-up" data-delay="320"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><h3>Partial payments &amp; deposits</h3><p>Collect a deposit upfront, track partial payments, and issue receipts automatically.</p></div>
+      <div class="feature-cell reveal reveal-up" data-delay="400"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><h3>Auto-save drafts</h3><p>Never lose work. Quinvoix saves your invoice draft automatically every 800ms while you type.</p></div>
+      <div class="feature-cell reveal reveal-up" data-delay="480"><div class="feature-icon"><svg width="20" height="20" fill="none" stroke="#00d4ff" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h3>Live preview</h3><p>See exactly how your invoice looks as you build — desktop two-panel layout, no tab switching.</p></div>
     </div>
   </section>
 
   <div class="templates-wrap">
-    <div class="section-label">144+ design combinations</div>
+    <div class="section-label reveal reveal-up">144+ design combinations</div>
     <div class="templates-scroll">
       <span class="template-chip">Classic</span><span class="template-chip">Modern</span><span class="template-chip">Minimal</span><span class="template-chip">Bold</span><span class="template-chip">Elegant</span><span class="template-chip">Corporate</span><span class="template-chip">Creative</span><span class="template-chip">Simple</span><span class="template-chip">Professional</span><span class="template-chip">Clean</span><span class="template-chip">Executive</span><span class="template-chip">Compact</span>
     </div>
   </div>
 
+  <!-- ───── Privacy / Trust block ───── -->
+  <section class="privacy-section">
+    <div class="section-label reveal reveal-up">Privacy</div>
+    <h2 class="section-title reveal reveal-up" data-delay="80">Your data stays yours.</h2>
+    <p class="section-sub reveal reveal-up" data-delay="160">Privacy isn't a feature — it's the default. We built Quinvoix the way we'd want our own business tools to work.</p>
+    <div class="privacy-grid">
+      <div class="privacy-card reveal reveal-up" data-delay="0">
+        <div class="privacy-icon">🔒</div>
+        <div>
+          <h3>We never sell your data.</h3>
+          <p>Your email, name, and business details are never shared with advertisers or third parties. Full stop.</p>
+        </div>
+      </div>
+      <div class="privacy-card reveal reveal-up" data-delay="80">
+        <div class="privacy-icon">📧</div>
+        <div>
+          <h3>No marketing spam.</h3>
+          <p>We'll only email you about your account. No newsletters, no promotions — unless you explicitly opt in.</p>
+        </div>
+      </div>
+      <div class="privacy-card reveal reveal-up" data-delay="160">
+        <div class="privacy-icon">🛡️</div>
+        <div>
+          <h3>Your business stays in your account.</h3>
+          <p>Invoices, clients, and tax info are encrypted at rest and accessible only by you.</p>
+        </div>
+      </div>
+      <div class="privacy-card reveal reveal-up" data-delay="240">
+        <div class="privacy-icon">💳</div>
+        <div>
+          <h3>Payments handled by Stripe.</h3>
+          <p>Your card details never touch our servers. Stripe is trusted by millions of businesses worldwide.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="content" id="pricing" style="padding-top:2rem;">
-    <div class="section-label">Pricing</div>
-    <h2 class="section-title">Simple, honest pricing.</h2>
-    <p class="section-sub">No hidden fees. No per-invoice charges. One flat price for everything.</p>
+    <div class="section-label reveal reveal-up">Pricing</div>
+    <h2 class="section-title reveal reveal-up" data-delay="80">Simple, honest pricing.</h2>
+    <p class="section-sub reveal reveal-up" data-delay="160">No hidden fees. No per-invoice charges. One flat price for everything.</p>
+
+    <!-- Launch offer banner -->
+    <div class="launch-banner reveal reveal-up" data-delay="200">
+      🎁 <strong>Launch offer</strong> — use code <span class="launch-code">WELCOME25</span> at checkout for <strong>25% off your first 3 months</strong>.
+    </div>
+
     <div class="pricing-wrap">
-      <div class="pricing-card featured">
+      <div class="pricing-card featured reveal reveal-scale" data-delay="0">
         <div class="featured-badge">Most popular</div>
         <div class="plan-name">Monthly</div>
         <div class="plan-price"><sup>$</sup>8.99</div>
@@ -389,12 +486,12 @@
           <li><span class="check">✓</span> 9-language invoice output</li>
           <li><span class="check">✓</span> Auto-save drafts</li>
           <li><span class="check">✓</span> Multiple businesses</li>
-          <li><span class="check">✓</span> 7-day free trial</li>
+          <li><span class="check">✓</span> 30-day free trial</li>
         </ul>
         <a href="https://quinvoix.mybizkitpro.com/" class="btn-primary" style="display:block;text-align:center;width:100%;" target="_blank">Start free trial</a>
       </div>
 
-      <div class="pricing-card annual">
+      <div class="pricing-card annual reveal reveal-scale" data-delay="120">
         <div class="annual-badge">Best value</div>
         <div class="plan-name">Annual <span class="save-pill">Save 26%</span></div>
         <div class="plan-price"><sup>$</sup>79</div>
@@ -408,18 +505,18 @@
           <li><span class="check">✓</span> 9-language invoice output</li>
           <li><span class="check">✓</span> Auto-save drafts</li>
           <li><span class="check">✓</span> Multiple businesses</li>
-          <li><span class="check">✓</span> 7-day free trial</li>
+          <li><span class="check">✓</span> 30-day free trial</li>
           <li><span style="color:#34d399;flex-shrink:0;margin-top:1px;">✓</span> <span style="color:#34d399;font-weight:600;">Save $28.88 vs monthly</span></li>
         </ul>
         <a href="https://quinvoix.mybizkitpro.com/" class="btn-primary btn-annual" target="_blank">Start free trial</a>
       </div>
-    <p class="trial-note">7-day free trial — card required after trial. Cancel anytime, no questions asked.</p>
+    <p class="trial-note">30-day free trial — card required after trial. Cancel anytime, no questions asked.</p>
   </section>
 
   <div class="cta-band">
-    <h2>Ready to get paid faster?</h2>
-    <p>Join freelancers and small businesses around the world using Quinvoix to invoice smarter.</p>
-    <a href="https://quinvoix.mybizkitpro.com/" class="btn-primary" target="_blank">Start your free 7-day trial</a>
+    <h2 class="reveal reveal-up">Ready to get paid faster?</h2>
+    <p class="reveal reveal-up" data-delay="80">Join freelancers and small businesses around the world using Quinvoix to invoice smarter.</p>
+    <a href="https://quinvoix.mybizkitpro.com/" class="btn-primary reveal reveal-up" data-delay="160" target="_blank">Start your free 30-day trial</a>
   </div>
 
   <footer>
@@ -427,7 +524,7 @@
       <div class="footer-brand"><span>Q</span>uinvoix</div>
       <div class="footer-parent">Part of <a href="../index.html">MyBizKit Pro</a></div>
     </div>
-    <p>© 2025 MyBizKit Pro. All rights reserved.</p>
+    <p>© 2026 MyBizKit Pro. All rights reserved.</p>
     <div style="display:flex;gap:1.5rem;">
       <a href="https://quinvoix.mybizkitpro.com/" target="_blank">App</a>
       <a href="guide/">Guide</a>
@@ -437,6 +534,7 @@
   </footer>
 
   <script>
+    /* ───── Wave canvas (background) ───── */
     const canvas=document.getElementById('wave-canvas'),ctx=canvas.getContext('2d');
     let t=0,particles=[];
     function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
@@ -458,6 +556,31 @@
       t+=0.008;
     }
     animate();
+
+    /* ───── Scroll-reveal animations ─────
+       Watches every .reveal element. When it enters the viewport, adds .is-visible
+       which triggers the CSS transition. Each element animates once, then is
+       unobserved. Reads optional data-delay (ms) to stagger sibling reveals.
+       Skips entirely if the user prefers reduced motion. */
+    (function initScrollReveal(){
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const targets = document.querySelectorAll('.reveal');
+      if (reduceMotion || !('IntersectionObserver' in window)) {
+        targets.forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          const delay = parseInt(el.dataset.delay || '0', 10);
+          if (delay > 0) el.style.transitionDelay = delay + 'ms';
+          el.classList.add('is-visible');
+          io.unobserve(el);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      targets.forEach(el => io.observe(el));
+    })();
   </script>
 </body>
 </html>
