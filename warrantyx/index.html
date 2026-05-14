@@ -493,6 +493,39 @@
   }
 
 
+
+  /* ── LAUNCH BANNER ── */
+  .launch-banner {
+    max-width: 760px;
+    margin: 0 auto 40px;
+    background: linear-gradient(135deg, rgba(0,122,255,0.12) 0%, rgba(0,207,255,0.08) 100%);
+    border: 1px solid rgba(56,182,255,0.35);
+    border-radius: 14px;
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 15px;
+    color: var(--text);
+    text-align: center;
+    line-height: 1.5;
+  }
+  .launch-banner strong { color: var(--accent2); font-weight: 700; }
+  .launch-code {
+    display: inline-block;
+    background: rgba(0,122,255,0.18);
+    border: 1px dashed rgba(56,182,255,0.6);
+    color: var(--accent2);
+    font-weight: 700;
+    font-family: 'DM Sans', ui-monospace, monospace;
+    letter-spacing: 0.05em;
+    padding: 2px 10px;
+    border-radius: 6px;
+    margin: 0 4px;
+  }
+
   /* ── SCROLL-REVEAL ── */
   .reveal {
     opacity: 0;
@@ -796,6 +829,11 @@
   <div class="section-tag reveal reveal-up">Pricing</div>
   <h2 class="section-h2 reveal reveal-up" data-delay="80">Simple plans, <span>no surprises</span></h2>
   <p class="section-sub reveal reveal-up" data-delay="160">Start free, upgrade when you're ready. No lock-in.</p>
+
+  <!-- Launch offer banner -->
+  <div class="launch-banner reveal reveal-up" data-delay="200">
+    🎁 <strong>Limited time offer</strong> — use code <span class="launch-code">WELCOME25</span> at checkout for <strong>25% off your first 3 months</strong>.
+  </div>
 
   <div class="pricing-grid">
     <div class="price-card reveal reveal-scale" data-delay="0">
