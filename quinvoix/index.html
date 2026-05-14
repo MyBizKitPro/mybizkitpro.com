@@ -305,14 +305,14 @@
   </nav>
 
   <section class="hero">
-    <div class="hero-eyebrow"><span class="dot"></span> Invoicing for freelancers &amp; small businesses worldwide</div>
+    <div class="hero-eyebrow"><span class="dot"></span> Invoicing for freelancers, sole traders &amp; small businesses worldwide</div>
     <h1>Invoice fast.<br/><span class="amber">Get paid faster.</span></h1>
     <p class="hero-sub">Quinvoix makes professional invoicing ridiculously quick. Create, send, and track invoices in seconds — no accountant required.</p>
     <div class="hero-actions">
       <a href="https://quinvoix.mybizkitpro.com/" class="btn-primary" target="_blank">Start 30-day free trial</a>
       <a href="#demo" class="btn-ghost">See it in action ↓</a>
     </div>
-    <p class="hero-note">30-day free trial &nbsp;·&nbsp; Card required after trial &nbsp;·&nbsp; $8.99 AUD/month &nbsp;·&nbsp; Cancel anytime</p>
+    <p class="hero-note">30-day free trial &nbsp;·&nbsp; NO CARD REQUIRED DURING FREE TRIAL &nbsp;·&nbsp; $8.99 AUD/month &nbsp;·&nbsp; Cancel anytime</p>
   </section>
 
   <!-- ───── GALLERY ───── -->
@@ -378,7 +378,7 @@
   <!-- ───── /GALLERY ───── -->
 
   <div class="proof-strip">
-    <p class="reveal reveal-up">Trusted by freelancers around the world</p>
+    <p class="reveal reveal-up">Trusted by freelancers and sole traders around the world</p>
     <div class="proof-tags">
       <span class="proof-tag reveal reveal-up" data-delay="0">🔨 Tradies</span>
       <span class="proof-tag reveal reveal-up" data-delay="60">💻 Web designers</span>
@@ -510,12 +510,12 @@
         </ul>
         <a href="https://quinvoix.mybizkitpro.com/" class="btn-primary btn-annual" target="_blank">Start free trial</a>
       </div>
-    <p class="trial-note">30-day free trial — card required after trial. Cancel anytime, no questions asked.</p>
+    <p class="trial-note">30-day free trial — NO CARD REQUIRED DURING FREE TRIAL. Cancel anytime, no questions asked.</p>
   </section>
 
   <div class="cta-band">
     <h2 class="reveal reveal-up">Ready to get paid faster?</h2>
-    <p class="reveal reveal-up" data-delay="80">Join freelancers and small businesses around the world using Quinvoix to invoice smarter.</p>
+    <p class="reveal reveal-up" data-delay="80">Join freelancers, sole traders, and small businesses around the world using Quinvoix to invoice smarter.</p>
     <a href="https://quinvoix.mybizkitpro.com/" class="btn-primary reveal reveal-up" data-delay="160" target="_blank">Start your free 30-day trial</a>
   </div>
 
@@ -558,10 +558,10 @@
     animate();
 
     /* ───── Scroll-reveal animations ─────
-       Watches every .reveal element. When it enters the viewport, adds .is-visible
-       which triggers the CSS transition. Each element animates once, then is
-       unobserved. Reads optional data-delay (ms) to stagger sibling reveals.
-       Skips entirely if the user prefers reduced motion. */
+       Watches every .reveal element. Toggles .is-visible based on viewport state:
+       elements animate in when entering view, animate out when leaving, and
+       animate in again when scrolled back to. Reads optional data-delay (ms) to
+       stagger sibling reveals. Skips entirely if the user prefers reduced motion. */
     (function initScrollReveal(){
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const targets = document.querySelectorAll('.reveal');
@@ -569,14 +569,19 @@
         targets.forEach(el => el.classList.add('is-visible'));
         return;
       }
+      // Apply staggered transition delays once up-front so they apply
+      // to both reveal and hide transitions consistently.
+      targets.forEach(el => {
+        const delay = parseInt(el.dataset.delay || '0', 10);
+        if (delay > 0) el.style.transitionDelay = delay + 'ms';
+      });
       const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          const el = entry.target;
-          const delay = parseInt(el.dataset.delay || '0', 10);
-          if (delay > 0) el.style.transitionDelay = delay + 'ms';
-          el.classList.add('is-visible');
-          io.unobserve(el);
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          } else {
+            entry.target.classList.remove('is-visible');
+          }
         });
       }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
       targets.forEach(el => io.observe(el));
